@@ -1,0 +1,50 @@
+{
+  "name": "system",
+  "template": "package",
+  "version": "0.0.1",
+  "vala": "0.26",
+  "authors": [
+    "Bruce Davidson <darkoverlordofdata@gmail.com>"
+  ],
+  "homepage": "https://github.com/darkoverlordofdata/doran-system",
+  "description": "system",
+  "license": "MIT",
+  "private": false,
+  "dependencies": {},
+  "main": "CMakeLists.txt",
+  "source": "src",
+  "files": [
+    "src/System.vala",
+    "src/System/Environment.vala",
+    "src/System/EventArgs.vala",
+    "src/System/Exception.vala",
+    "src/System/IComparable.vala",
+    "src/System/IDisposable.vala",
+    "src/System/IServiceProvider.vala",
+    "src/System/WeakReference.vala",
+    "src/System/TimeSpan.vala",
+    "src/System/Diagnostics/Stopwatch.vala",
+    "src/System/Collections/Generic/Collection.vala",
+    "src/System/Collections/Generic/ArrayList.vala",
+    "src/System/Collections/Generic/Dictionary.vala",
+    "src/System/Collections/Generic/HashSet.vala",
+    "src/System/Collections/Generic/Iterable.vala",
+    "src/System/Collections/Generic/List.vala",
+    "src/System/Collections/Generic/Map.vala",
+    "src/System/Collections/Generic/Set.vala",
+    "src/System/Collections/Generic/MapIterator.vala",
+    "src/System/Collections/Generic/TimSort.vala",
+    "src/System/Collections/Generic/Iterator.vala"
+  ],
+  "packages": null,
+  "includes": [],
+  "libraries": null,
+  "options": {
+    "VERSION": "0.0.1",
+    "RELEASE_NAME": "system"
+  },
+  "definitions": [],
+  "copy": null,
+  "vapidir": null,
+  "console": false
+}
