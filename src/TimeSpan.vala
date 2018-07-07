@@ -1,5 +1,5 @@
-namespace System 
-{ 
+// namespace System 
+// { 
     public class TimeSpan : Object 
     {
         public const int64    TicksPerMillisecond =  10000;
@@ -269,4 +269,4 @@ namespace System
 
    }
 
-}
+// }

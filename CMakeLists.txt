@@ -11,31 +11,32 @@ project ( system VERSION 0.0.1 )
 # C Sources: 
 
 # Vala Sources: 
-list ( APPEND SOURCE .lib/system/src/System.vala )
-list ( APPEND SOURCE .lib/system/src/System/Environment.vala )
-list ( APPEND SOURCE .lib/system/src/System/EventArgs.vala )
-list ( APPEND SOURCE .lib/system/src/System/Exception.vala )
-list ( APPEND SOURCE .lib/system/src/System/IComparable.vala )
-list ( APPEND SOURCE .lib/system/src/System/IDisposable.vala )
-list ( APPEND SOURCE .lib/system/src/System/IServiceProvider.vala )
-list ( APPEND SOURCE .lib/system/src/System/WeakReference.vala )
-list ( APPEND SOURCE .lib/system/src/System/TimeSpan.vala )
-list ( APPEND SOURCE .lib/system/src/System/Diagnostics/Stopwatch.vala )
-list ( APPEND SOURCE .lib/system/src/System/Collections/Generic/Collection.vala )
-list ( APPEND SOURCE .lib/system/src/System/Collections/Generic/ArrayList.vala )
-list ( APPEND SOURCE .lib/system/src/System/Collections/Generic/Dictionary.vala )
-list ( APPEND SOURCE .lib/system/src/System/Collections/Generic/HashSet.vala )
-list ( APPEND SOURCE .lib/system/src/System/Collections/Generic/Iterable.vala )
-list ( APPEND SOURCE .lib/system/src/System/Collections/Generic/List.vala )
-list ( APPEND SOURCE .lib/system/src/System/Collections/Generic/Map.vala )
-list ( APPEND SOURCE .lib/system/src/System/Collections/Generic/Set.vala )
-list ( APPEND SOURCE .lib/system/src/System/Collections/Generic/MapIterator.vala )
-list ( APPEND SOURCE .lib/system/src/System/Collections/Generic/TimSort.vala )
-list ( APPEND SOURCE .lib/system/src/System/Collections/Generic/Iterator.vala )
+list ( APPEND SOURCE .lib/system/src/Environment.vala )
+list ( APPEND SOURCE .lib/system/src/EventArgs.vala )
+list ( APPEND SOURCE .lib/system/src/Exception.vala )
+list ( APPEND SOURCE .lib/system/src/IComparable.vala )
+list ( APPEND SOURCE .lib/system/src/IDisposable.vala )
+list ( APPEND SOURCE .lib/system/src/IServiceProvider.vala )
+list ( APPEND SOURCE .lib/system/src/TimeSpan.vala )
+list ( APPEND SOURCE .lib/system/src/WeakReference.vala )
+list ( APPEND SOURCE .lib/system/src/Main.vala )
+list ( APPEND SOURCE .lib/system/src/Diagnostics/Stopwatch.vala )
+list ( APPEND SOURCE .lib/system/src/Collections/Generic/ArrayList.vala )
+list ( APPEND SOURCE .lib/system/src/Collections/Generic/HashSet.vala )
+list ( APPEND SOURCE .lib/system/src/Collections/Generic/Dictionary.vala )
+list ( APPEND SOURCE .lib/system/src/Collections/Generic/Collection.vala )
+list ( APPEND SOURCE .lib/system/src/Collections/Generic/Iterable.vala )
+list ( APPEND SOURCE .lib/system/src/Collections/Generic/Iterator.vala )
+list ( APPEND SOURCE .lib/system/src/Collections/Generic/List.vala )
+list ( APPEND SOURCE .lib/system/src/Collections/Generic/Map.vala )
+list ( APPEND SOURCE .lib/system/src/Collections/Generic/MapIterator.vala )
+list ( APPEND SOURCE .lib/system/src/Collections/Generic/TimSort.vala )
+list ( APPEND SOURCE .lib/system/src/Collections/Generic/Set.vala )
 
 # Vapis: 
 
 # Vapidir: 
+list ( APPEND VALA_OPTION --vapidir=${CMAKE_SOURCE_DIR}/.lib/system/vapis)
 
 ## Export to the parent scope:
 set ( SYSTEM true PARENT_SCOPE )
@@ -43,7 +44,7 @@ set ( INCLUDES "${INCLUDES};${INCLUDE}" PARENT_SCOPE )
 
 set ( VALA_SOURCES "${VALA_SOURCES};${SOURCE}" PARENT_SCOPE )
 
-
+set ( VALAC_OPTIONS "${VALAC_OPTIONS};${VALA_OPTION}" PARENT_SCOPE )
 
 
 
