@@ -28,7 +28,7 @@ using GLib;
  * Hashtable implementation of the Map interface.
  */
 public class System.Collections.Generic.Dictionary<K,V> : Map<K,V> {
-	public override int size {
+	public override int Count {
 		get { return _nnodes; }
 	}
 
@@ -66,12 +66,14 @@ public class System.Collections.Generic.Dictionary<K,V> : Map<K,V> {
 		_nodes = new Node<K,V>[_array_size];
 	}
 
-	public override Set<K> get_keys () {
-		return new KeySet<K,V> (this);
+	public override Set<K> Keys 
+	{
+		owned get { return new KeySet<K,V> (this); }
 	}
 
-	public override Collection<V> get_values () {
-		return new ValueCollection<K,V> (this);
+	public override Collection<V> Values 
+	{
+		owned get { return new ValueCollection<K,V> (this); }
 	}
 
 	public override System.Collections.Generic.MapIterator<K,V> map_iterator () {
@@ -87,7 +89,7 @@ public class System.Collections.Generic.Dictionary<K,V> : Map<K,V> {
 		return node;
 	}
 
-	public override bool contains (K key) {
+	public override bool Contains (K key) {
 		Node<K,V>** node = lookup_node (key);
 		return (*node != null);
 	}
@@ -114,7 +116,7 @@ public class System.Collections.Generic.Dictionary<K,V> : Map<K,V> {
 		_stamp++;
 	}
 
-	public override bool remove (K key) {
+	public override bool Remove (K key) {
 		Node<K,V>** node = lookup_node (key);
 		if (*node != null) {
 			Node<K,V> next = (owned) (*node)->next;
@@ -133,7 +135,7 @@ public class System.Collections.Generic.Dictionary<K,V> : Map<K,V> {
 		return false;
 	}
 
-	public override void clear () {
+	public override void Clear () {
 		for (int i = 0; i < _array_size; i++) {
 			Node<K,V> node = (owned) _nodes[i];
 			while (node != null) {
@@ -171,7 +173,7 @@ public class System.Collections.Generic.Dictionary<K,V> : Map<K,V> {
 	}
 
 	~Dictionary () {
-		clear ();
+		Clear ();
 	}
 
 	[Compact]
@@ -207,24 +209,24 @@ public class System.Collections.Generic.Dictionary<K,V> : Map<K,V> {
 			return new KeyIterator<K,V> (_map);
 		}
 
-		public override int size {
-			get { return _map.size; }
+		public override int Count {
+			get { return _map.Count; }
 		}
 
-		public override bool add (K key) {
+		public override bool Add (K key) {
 			assert_not_reached ();
 		}
 
-		public override void clear () {
+		public override void Clear () {
 			assert_not_reached ();
 		}
 
-		public override bool remove (K key) {
+		public override bool Remove (K key) {
 			assert_not_reached ();
 		}
 
-		public override bool contains (K key) {
-			return _map.contains (key);
+		public override bool Contains (K key) {
+			return _map.Contains (key);
 		}
 	}
 
@@ -322,7 +324,7 @@ public class System.Collections.Generic.Dictionary<K,V> : Map<K,V> {
 			return _node.key;
 		}
 
-		public override void remove () {
+		public override void Remove () {
 			assert_not_reached ();
 		}
 
@@ -352,23 +354,23 @@ public class System.Collections.Generic.Dictionary<K,V> : Map<K,V> {
 			return new ValueIterator<K,V> (_map);
 		}
 
-		public override int size {
-			get { return _map.size; }
+		public override int Count {
+			get { return _map.Count; }
 		}
 
-		public override bool add (V value) {
+		public override bool Add (V value) {
 			assert_not_reached ();
 		}
 
-		public override void clear () {
+		public override void Clear () {
 			assert_not_reached ();
 		}
 
-		public override bool remove (V value) {
+		public override bool Remove (V value) {
 			assert_not_reached ();
 		}
 
-		public override bool contains (V value) {
+		public override bool Contains (V value) {
 			Iterator<V> it = iterator ();
 			while (it.next ()) {
 				if (_map._value_equal_func (it.get (), value)) {
@@ -430,7 +432,7 @@ public class System.Collections.Generic.Dictionary<K,V> : Map<K,V> {
 			return _node.value;
 		}
 
-		public override void remove () {
+		public override void Remove () {
 			assert_not_reached ();
 		}
 

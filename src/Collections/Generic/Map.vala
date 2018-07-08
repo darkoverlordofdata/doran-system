@@ -27,30 +27,30 @@ public abstract class System.Collections.Generic.Map<K,V> : Object {
 	/**
 	 * The number of items in this map.
 	 */
-	public abstract int size { get; }
+	public abstract int Count { get; }
 
 	/**
 	 * Returns the keys of this map as a read-only set.
 	 *
 	 * @return the keys of the map
 	 */
-	public abstract Set<K> get_keys ();
+	public abstract Set<K> Keys { owned get; }
 
 	/**
 	 * Returns the values of this map as a read-only collection.
 	 *
 	 * @return the values of the map
 	 */
-	public abstract Collection<V> get_values ();
+	public abstract Collection<V> Values { owned get; }
 
 	/**
-	 * Determines whether this map contains the specified key.
+	 * Determines whether this map Contains the specified key.
 	 *
 	 * @param key the key to locate in the map
 	 *
 	 * @return    true if key is found, false otherwise
 	 */
-	public abstract bool contains (K key);
+	public abstract bool Contains (K key);
 
 	/**
 	 * Returns the value of the specified key in this map.
@@ -65,7 +65,7 @@ public abstract class System.Collections.Generic.Map<K,V> : Object {
 	/**
 	 * Inserts a new key and value into this map.
 	 *
-	 * @param key   the key to insert
+	 * @param key   the key to Insert
 	 * @param value the value to associate with the key
 	 */
 	public abstract void set (K key, V value);
@@ -73,17 +73,17 @@ public abstract class System.Collections.Generic.Map<K,V> : Object {
 	/**
 	 * Removes the specified key from this map.
 	 *
-	 * @param key the key to remove from the map
+	 * @param key the key to Remove from the map
 	 *
 	 * @return    true if the map has been changed, false otherwise
 	 */
-	public abstract bool remove (K key);
+	public abstract bool Remove (K key);
 
 	/**
 	 * Removes all items from this collection. Must not be called on
 	 * read-only collections.
 	 */
-	public abstract void clear ();
+	public abstract void Clear ();
 
 	/**
 	 * Returns a Iterator that can be used for simple iteration over a

@@ -22,53 +22,53 @@
 
 /**
  * Serves as the base interface for implementing collection classes. Defines
- * size, iteration, and modification methods.
+ * Count, iteration, and modification methods.
  */
 public abstract class System.Collections.Generic.Collection<G> : Iterable<G> {
 	/**
 	 * The number of items in this collection.
 	 */
-	public abstract int size { get; }
+	public abstract int Count { get; }
 
 	/**
 	 * Specifies whether this collection is empty.
 	 */
-	public virtual bool is_empty { get { return size == 0; } }
+	public virtual bool IsEmpty { get { return Count == 0; } }
 
 	/**
-	 * Determines whether this collection contains the specified item.
+	 * Determines whether this collection Contains the specified item.
 	 *
 	 * @param item the item to locate in the collection
 	 *
 	 * @return     true if item is found, false otherwise
 	 */
-	public abstract bool contains (G item);
+	public abstract bool Contains (G item);
 
 	/**
 	 * Adds an item to this collection. Must not be called on read-only
 	 * collections.
 	 *
-	 * @param item the item to add to the collection
+	 * @param item the item to Add to the collection
 	 *
 	 * @return     true if the collection has been changed, false otherwise
 	 */
-	public abstract bool add (G item);
+	public abstract bool Add (G item);
 
 	/**
 	 * Removes the first occurrence of an item from this collection. Must not
 	 * be called on read-only collections.
 	 *
-	 * @param item the item to remove from the collection
+	 * @param item the item to Remove from the collection
 	 *
 	 * @return     true if the collection has been changed, false otherwise
 	 */
-	public abstract bool remove (G item);
+	public abstract bool Remove (G item);
 
 	/**
 	 * Removes all items from this collection. Must not be called on
 	 * read-only collections.
 	 */
-	public abstract void clear ();
+	public abstract void Clear ();
 
 	/**
 	 * Adds all items in the input collection to this collection.
@@ -78,12 +78,12 @@ public abstract class System.Collections.Generic.Collection<G> : Iterable<G> {
 	 *
 	 * @return     ``true`` if the collection has been changed, ``false`` otherwise
 	 */
-	public virtual bool add_all (Collection<G> collection) {
+	public virtual bool AddAll (Collection<G> collection) {
 		bool changed = false;
 		for (Iterator<G> iter = collection.iterator (); iter.next ();) {
 			G item = iter.get ();
-			if (!contains (item)) {
-				add (item);
+			if (!Contains (item)) {
+				Add (item);
 				changed = true;
 			}
 		}
@@ -95,7 +95,7 @@ public abstract class System.Collections.Generic.Collection<G> : Iterable<G> {
 	 *
 	 * @return an array containing all of items from this collection
 	 */
-	public virtual G[] to_array () {
+	public virtual G[] ToArray () {
 		var t = typeof (G);
 		if (t == typeof (bool)) {
 			return (G[]) to_bool_array ((Collection<bool>) this);
@@ -122,7 +122,7 @@ public abstract class System.Collections.Generic.Collection<G> : Iterable<G> {
 		} else if (t.is_enum () || t.is_flags ()) {
 			return (G[]) to_int_array ((Collection<int>) this);
 		} else {
-			G[] array = new G[size];
+			G[] array = new G[Count];
 			int index = 0;
 			foreach (G element in this) {
 				array[index++] = (owned)element;
@@ -132,7 +132,7 @@ public abstract class System.Collections.Generic.Collection<G> : Iterable<G> {
 	}
 
 	private static bool[] to_bool_array (Collection<bool> coll) {
-		bool[] array = new bool[coll.size];
+		bool[] array = new bool[coll.Count];
 		int index = 0;
 		foreach (bool element in coll) {
 			array[index++] = element;
@@ -141,7 +141,7 @@ public abstract class System.Collections.Generic.Collection<G> : Iterable<G> {
 	}
 
 	private static char[] to_char_array (Collection<char> coll) {
-		char[] array = new char[coll.size];
+		char[] array = new char[coll.Count];
 		int index = 0;
 		foreach (char element in coll) {
 			array[index++] = element;
@@ -150,7 +150,7 @@ public abstract class System.Collections.Generic.Collection<G> : Iterable<G> {
 	}
 
 	private static uchar[] to_uchar_array (Collection<uchar> coll) {
-		uchar[] array = new uchar[coll.size];
+		uchar[] array = new uchar[coll.Count];
 		int index = 0;
 		foreach (uchar element in coll) {
 			array[index++] = element;
@@ -159,7 +159,7 @@ public abstract class System.Collections.Generic.Collection<G> : Iterable<G> {
 	}
 
 	private static int[] to_int_array (Collection<int> coll) {
-		int[] array = new int[coll.size];
+		int[] array = new int[coll.Count];
 		int index = 0;
 		foreach (int element in coll) {
 			array[index++] = element;
@@ -168,7 +168,7 @@ public abstract class System.Collections.Generic.Collection<G> : Iterable<G> {
 	}
 
 	private static uint[] to_uint_array (Collection<uint> coll) {
-		uint[] array = new uint[coll.size];
+		uint[] array = new uint[coll.Count];
 		int index = 0;
 		foreach (uint element in coll) {
 			array[index++] = element;
@@ -177,7 +177,7 @@ public abstract class System.Collections.Generic.Collection<G> : Iterable<G> {
 	}
 
 	private static int64?[] to_int64_array (Collection<int64?> coll) {
-		int64?[] array = new int64?[coll.size];
+		int64?[] array = new int64?[coll.Count];
 		int index = 0;
 		foreach (int64? element in coll) {
 			array[index++] = (owned)element;
@@ -186,7 +186,7 @@ public abstract class System.Collections.Generic.Collection<G> : Iterable<G> {
 	}
 
 	private static uint64?[] to_uint64_array (Collection<uint64?> coll) {
-		uint64?[] array = new uint64?[coll.size];
+		uint64?[] array = new uint64?[coll.Count];
 		int index = 0;
 		foreach (uint64? element in coll) {
 			array[index++] = (owned)element;
@@ -195,7 +195,7 @@ public abstract class System.Collections.Generic.Collection<G> : Iterable<G> {
 	}
 
 	private static long[] to_long_array (Collection<long> coll) {
-		long[] array = new long[coll.size];
+		long[] array = new long[coll.Count];
 		int index = 0;
 		foreach (long element in coll) {
 			array[index++] = element;
@@ -204,7 +204,7 @@ public abstract class System.Collections.Generic.Collection<G> : Iterable<G> {
 	}
 
 	private static ulong[] to_ulong_array (Collection<ulong> coll) {
-		ulong[] array = new ulong[coll.size];
+		ulong[] array = new ulong[coll.Count];
 		int index = 0;
 		foreach (ulong element in coll) {
 			array[index++] = element;
@@ -213,7 +213,7 @@ public abstract class System.Collections.Generic.Collection<G> : Iterable<G> {
 	}
 
 	private static float?[] to_float_array (Collection<float?> coll) {
-		float?[] array = new float?[coll.size];
+		float?[] array = new float?[coll.Count];
 		int index = 0;
 		foreach (float? element in coll) {
 			array[index++] = (owned)element;
@@ -222,7 +222,7 @@ public abstract class System.Collections.Generic.Collection<G> : Iterable<G> {
 	}
 
 	private static double?[] to_double_array (Collection<double?> coll) {
-		double?[] array = new double?[coll.size];
+		double?[] array = new double?[coll.Count];
 		int index = 0;
 		foreach (double? element in coll) {
 			array[index++] = (owned)element;

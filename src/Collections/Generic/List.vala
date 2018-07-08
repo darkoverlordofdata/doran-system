@@ -47,15 +47,15 @@ public abstract class System.Collections.Generic.List<G> : Collection<G> {
 	 * @return the index of the first occurrence of the specified item, or
 	 *         -1 if the item could not be found
 	 */
-	public abstract int index_of (G item);
+	public abstract int IndexOf (G item);
 
 	/**
 	 * Inserts an item into this list at the specified position.
 	 *
 	 * @param index zero-based index at which item is inserted
-	 * @param item  item to insert into the list
+	 * @param item  item to Insert into the list
 	 */
-	public abstract void insert (int index, G item);
+	public abstract void Insert (int index, G item);
 
 	/**
 	 * Removes the item at the specified index of this list.
@@ -64,14 +64,14 @@ public abstract class System.Collections.Generic.List<G> : Collection<G> {
 	 *
 	 * @return      the removed element
 	 */
-	public abstract G remove_at (int index);
+	public abstract G RemoveAt (int index);
 
 	/**
 	 * Returns the first item of the list. Fails if the list is empty.
 	 *
 	 * @return      first item in the list
 	 */
-	public virtual G first () {
+	public virtual G First () {
 		return @get (0);
 	}
 
@@ -80,8 +80,8 @@ public abstract class System.Collections.Generic.List<G> : Collection<G> {
 	 *
 	 * @return      last item in the list
 	 */
-	public virtual G last () {
-		return @get (size - 1);
+	public virtual G Last () {
+		return @get (Count - 1);
 	}
 
 	/**
@@ -91,10 +91,10 @@ public abstract class System.Collections.Generic.List<G> : Collection<G> {
 	 * @param index zero-based index of the items to be inserted
 	 * @param collection collection of items to be inserted
 	 */
-	public virtual void insert_all (int index, Collection<G> collection) {
+	public virtual void InsertAll (int index, Collection<G> collection) {
 		for (Iterator<G> iter = collection.iterator (); iter.next ();) {
 			G item = iter.get ();
-			insert (index, item);
+			Insert (index, item);
 			index++;
 		}
 	}
@@ -104,7 +104,7 @@ public abstract class System.Collections.Generic.List<G> : Collection<G> {
 	 *
 	 * @param compare_func compare function to use to compare items
 	 */
-	public virtual void sort (owned CompareDataFunc<G> compare_func) {
+	public virtual void Sort (owned CompareDataFunc<G> compare_func) {
 		TimSort.sort<G> (this, compare_func);
 	}
 }

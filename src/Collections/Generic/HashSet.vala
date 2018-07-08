@@ -28,7 +28,7 @@ using GLib;
  * Hashtable implementation of the Set interface.
  */
 public class System.Collections.Generic.HashSet<G> : Set<G> {
-	public override int size {
+	public override int Count {
 		get { return _nnodes; }
 	}
 
@@ -69,7 +69,7 @@ public class System.Collections.Generic.HashSet<G> : Set<G> {
 		return node;
 	}
 
-	public override bool contains (G key) {
+	public override bool Contains (G key) {
 		Node<G>** node = lookup_node (key);
 		return (*node != null);
 	}
@@ -82,7 +82,7 @@ public class System.Collections.Generic.HashSet<G> : Set<G> {
 		return new Iterator<G> (this);
 	}
 
-	public override bool add (G key) {
+	public override bool Add (G key) {
 		Node<G>** node = lookup_node (key);
 		if (*node != null) {
 			return false;
@@ -96,7 +96,7 @@ public class System.Collections.Generic.HashSet<G> : Set<G> {
 		}
 	}
 
-	public override bool remove (G key) {
+	public override bool Remove (G key) {
 		Node<G>** node = lookup_node (key);
 		if (*node != null) {
 			Node<G> next = (owned) (*node)->next;
@@ -114,7 +114,7 @@ public class System.Collections.Generic.HashSet<G> : Set<G> {
 		return false;
 	}
 
-	public override void clear () {
+	public override void Clear () {
 		for (int i = 0; i < _array_size; i++) {
 			Node<G> node = (owned) _nodes[i];
 			while (node != null) {
@@ -169,7 +169,7 @@ public class System.Collections.Generic.HashSet<G> : Set<G> {
 	}
 
 	~HashSet () {
-		clear ();
+		Clear ();
 	}
 
 	[Compact]
@@ -235,7 +235,7 @@ public class System.Collections.Generic.HashSet<G> : Set<G> {
 			return _node.key;
 		}
 
-		public override void remove () {
+		public override void Remove () {
 			assert (_stamp == _set._stamp);
 			assert (_node != null);
 			has_next ();

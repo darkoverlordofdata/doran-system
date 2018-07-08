@@ -58,18 +58,18 @@ internal class System.Collections.Generic.TimSort<G> : Object {
 		TimSort<G> helper = new TimSort<G> ();
 
 		helper.list_collection = list;
-		helper.array = list.to_array ();
+		helper.array = list.ToArray ();
 		helper.list = helper.array;
 		helper.index = 0;
-		helper.size = list.size;
+		helper.size = list.Count;
 		helper.compare = compare;
 
 		helper.do_sort ();
 
 		// TODO Use a list iterator and use iter.set (item)
-		list.clear ();
+		list.Clear ();
 		foreach (G item in helper.array) {
-			list.add (item);
+			list.Add (item);
 		}
 	}
 

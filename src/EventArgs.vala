@@ -30,19 +30,19 @@ namespace System {
         }
 
         public void Add(Event evt) {
-            Listeners.add(new Listener(evt));
+            Listeners.Add(new Listener(evt));
         }
 
         public void Remove(Event evt) {
-            for (var i=0; i<Listeners.size; i++) {
+            for (var i=0; i<Listeners.Count; i++) {
                 if (Listeners[i].Event == evt) {
-                    Listeners.remove_at(i);
+                    Listeners.RemoveAt(i);
                     return;
                 }
             }
         }
         public void Clear() {
-            Listeners.clear();
+            Listeners.Clear();
         }
     }
 }

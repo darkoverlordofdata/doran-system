@@ -28,7 +28,7 @@ using GLib;
  * Arrays of arbitrary elements which grow automatically as elements are added.
  */
 public class System.Collections.Generic.ArrayList<G> : List<G> {
-	public override int size {
+	public override int Count {
 		get { return _size; }
 	}
 
@@ -55,11 +55,11 @@ public class System.Collections.Generic.ArrayList<G> : List<G> {
 		return new Iterator<G> (this);
 	}
 
-	public override bool contains (G item) {
-		return (index_of (item) != -1);
+	public override bool Contains (G item) {
+		return (IndexOf (item) != -1);
 	}
 
-	public override int index_of (G item) {
+	public override int IndexOf (G item) {
 		for (int index = 0; index < _size; index++) {
 			if (_equal_func (_items[index], item)) {
 				return index;
@@ -80,7 +80,7 @@ public class System.Collections.Generic.ArrayList<G> : List<G> {
 		_items[index] = item;
 	}
 
-	public override bool add (G item) {
+	public override bool Add (G item) {
 		if (_size == _items.length) {
 			grow_if_needed (1);
 		}
@@ -89,7 +89,7 @@ public class System.Collections.Generic.ArrayList<G> : List<G> {
 		return true;
 	}
 
-	public override void insert (int index, G item) {
+	public override void Insert (int index, G item) {
 		assert (index >= 0 && index <= _size);
 
 		if (_size == _items.length) {
@@ -100,17 +100,17 @@ public class System.Collections.Generic.ArrayList<G> : List<G> {
 		_stamp++;
 	}
 
-	public override bool remove (G item) {
+	public override bool Remove (G item) {
 		for (int index = 0; index < _size; index++) {
 			if (_equal_func (_items[index], item)) {
-				remove_at (index);
+				RemoveAt (index);
 				return true;
 			}
 		}
 		return false;
 	}
 
-	public override G remove_at (int index) {
+	public override G RemoveAt (int index) {
 		assert (index >= 0 && index < _size);
 
 		G item = _items[index];
@@ -122,7 +122,7 @@ public class System.Collections.Generic.ArrayList<G> : List<G> {
 		return item;
 	}
 
-	public override void clear () {
+	public override void Clear () {
 		for (int index = 0; index < _size; index++) {
 			_items[index] = null;
 		}
@@ -143,7 +143,7 @@ public class System.Collections.Generic.ArrayList<G> : List<G> {
 
 		int minimum_size = _size + new_count;
 		if (minimum_size > _items.length) {
-			// double the capacity unless we add even more items at this time
+			// double the capacity unless we Add even more items at this time
 			set_capacity (new_count > _items.length ? minimum_size : 2 * _items.length);
 		}
 	}
@@ -198,12 +198,12 @@ public class System.Collections.Generic.ArrayList<G> : List<G> {
 			return _list.get (_index);
 		}
 
-		public override void remove () {
+		public override void Remove () {
 			assert (_stamp == _list._stamp);
 			assert (! _removed && _index >= 0);
 			assert (_index < _list._size);
 
-			_list.remove_at (_index);
+			_list.RemoveAt (_index);
 			_index--;
 			_removed = true;
 			_stamp = _list._stamp;
