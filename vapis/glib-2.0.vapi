@@ -1418,22 +1418,31 @@ public class string {
 	}
 
 	public string replace (string old, string replacement) {
-		var i = index_of(old);
-		if (i<0) return this;
+		var str = this;
+		var i = str.index_of(old);
 
-		var s1 = substring(0, i);
-		var s2 = substring(i+old.length);
-		return s1 + replacement + s2;
-		// if (*((char*) this) == '\0' || *((char*) old) == '\0' || old == replacement)
-		// 	return this;
-
-		// try {
-		// 	var regex = new GLib.Regex (GLib.Regex.escape_string (old));
-		// 	return regex.replace_literal (this, -1, 0, replacement);
-		// } catch (GLib.RegexError e) {
-		// 	GLib.assert_not_reached ();
-		// }
+		do
+		{
+			var s1 = str.substring(0, i);
+			var s2 = str.substring(i+old.length);
+			str = s1 + replacement + s2;
+			i = str.index_of(old);
+			
+		} while (i >= 0);
+		return str;
 	}
+
+	// public string replace (string old, string replacement) {
+	// 	if (*((char*) this) == '\0' || *((char*) old) == '\0' || old == replacement)
+	// 		return this;
+
+	// 	try {
+	// 		var regex = new GLib.Regex (GLib.Regex.escape_string (old));
+	// 		return regex.replace_literal (this, -1, 0, replacement);
+	// 	} catch (GLib.RegexError e) {
+	// 		GLib.assert_not_reached ();
+	// 	}
+	// }
 
 	[CCode (cname = "g_utf8_strlen")]
 	public int char_count (ssize_t max = -1);

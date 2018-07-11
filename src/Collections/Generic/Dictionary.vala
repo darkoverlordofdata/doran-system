@@ -89,7 +89,7 @@ public class System.Collections.Generic.Dictionary<K,V> : Map<K,V> {
 		return node;
 	}
 
-	public override bool Contains (K key) {
+	public override bool ContainsKey (K key) {
 		Node<K,V>** node = lookup_node (key);
 		return (*node != null);
 	}
@@ -226,7 +226,7 @@ public class System.Collections.Generic.Dictionary<K,V> : Map<K,V> {
 		}
 
 		public override bool Contains (K key) {
-			return _map.Contains (key);
+			return _map.ContainsKey (key);
 		}
 	}
 

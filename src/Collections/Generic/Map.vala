@@ -50,7 +50,7 @@ public abstract class System.Collections.Generic.Map<K,V> : Object {
 	 *
 	 * @return    true if key is found, false otherwise
 	 */
-	public abstract bool Contains (K key);
+	public abstract bool ContainsKey (K key);
 
 	/**
 	 * Returns the value of the specified key in this map.
