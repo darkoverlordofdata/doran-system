@@ -58,10 +58,29 @@ public class System.Collections.Generic.Dictionary<K,V> : Map<K,V> {
 	private const int MIN_SIZE = 11;
 	private const int MAX_SIZE = 13845163;
 
-	public Dictionary (HashFunc<K> key_hash_func = GLib.direct_hash, EqualFunc<K> key_equal_func = GLib.direct_equal, EqualFunc<V> value_equal_func = GLib.direct_equal) {
-		this.key_hash_func = key_hash_func;
-		this.key_equal_func = key_equal_func;
-		this.value_equal_func = value_equal_func;
+	public Dictionary (
+		HashFunc<K> key_hash_func = null, 
+		EqualFunc<K> key_equal_func = null, 
+		EqualFunc<V> value_equal_func = null) 
+	{
+		if (key_hash_func == null)
+			this.key_hash_func = typeof(K).is_a(typeof(string))
+				? GLib.str_hash : GLib.direct_hash;
+		else
+			this.key_hash_func = key_hash_func;
+
+		if (key_equal_func == null)
+			this.key_equal_func = typeof(K).is_a(typeof(string))
+				? GLib.str_equal : GLib.direct_equal;
+		else
+			this.key_equal_func = key_equal_func;
+
+		if (value_equal_func == null)
+			this.value_equal_func = typeof(V).is_a(typeof(string))
+				? GLib.str_equal : GLib.direct_equal;
+		else
+			this.value_equal_func = value_equal_func;
+
 		_array_size = MIN_SIZE;
 		_nodes = new Node<K,V>[_array_size];
 	}
