@@ -13,16 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-namespace System 
+namespace System.IO
 {
-    
-    public class WeakReference : Object
+    public errordomain IOException 
     {
-        weak Object target;
-        public WeakReference(Object target)
-        {
-            this.target = target;
-        }
+        InvalidData
     }
 
+
+    public enum FileType 
+    {
+        Resource = 1,		/* Path to memory GResource */
+        Asset,				/* Android asset folder */
+        Absolute,			/* Absolute filesystem path.  */
+        Relative			/* Path relative to the pwd */
+    }
 }

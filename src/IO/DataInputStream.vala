@@ -13,16 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-namespace System 
+namespace System.IO
 {
-    
-    public class WeakReference : Object
+	public class DataInputStream : Object 
     {
-        weak Object target;
-        public WeakReference(Object target)
+		public string[] data; 
+		public int ctr;
+		public DataInputStream(string data) 
         {
-            this.target = target;
-        }
-    }
+			this.data = data.split("\n");
+			ctr = 0;
+		}
 
+		public string? ReadLine() 
+        {
+			return ctr<data.length ? data[ctr++] : null;
+		}
+	}
 }

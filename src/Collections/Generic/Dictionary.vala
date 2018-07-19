@@ -63,23 +63,24 @@ public class System.Collections.Generic.Dictionary<K,V> : Map<K,V> {
 		EqualFunc<K> key_equal_func = null, 
 		EqualFunc<V> value_equal_func = null) 
 	{
-		if (key_hash_func == null)
-			this.key_hash_func = typeof(K).is_a(typeof(string))
-				? GLib.str_hash : GLib.direct_hash;
-		else
-			this.key_hash_func = key_hash_func;
 
-		if (key_equal_func == null)
-			this.key_equal_func = typeof(K).is_a(typeof(string))
-				? GLib.str_equal : GLib.direct_equal;
-		else
-			this.key_equal_func = key_equal_func;
+		this.key_hash_func = key_hash_func == null 
+			? typeof(K).is_a(typeof(string))
+				? GLib.str_hash 
+				: GLib.direct_hash
+			: key_hash_func;
 
-		if (value_equal_func == null)
-			this.value_equal_func = typeof(V).is_a(typeof(string))
-				? GLib.str_equal : GLib.direct_equal;
-		else
-			this.value_equal_func = value_equal_func;
+		this.key_equal_func = key_equal_func == null
+			? typeof(K).is_a(typeof(string))
+				? GLib.str_equal 
+				: GLib.direct_equal
+			: key_equal_func;
+
+		this.value_equal_func = value_equal_func == null
+			? typeof(V).is_a(typeof(string))
+				? GLib.str_equal 
+				: GLib.direct_equal
+			: value_equal_func;
 
 		_array_size = MIN_SIZE;
 		_nodes = new Node<K,V>[_array_size];
