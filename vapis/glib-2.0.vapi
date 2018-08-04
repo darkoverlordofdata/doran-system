@@ -770,6 +770,12 @@ public struct float {
         long value = *(long*)(&this);
         return ((int)value) ^ ((int)(value >> 32));
     }
+	public int CompareTo(float other)
+	{
+		if (this < other) return -1;
+		if (this > other) return 1;
+		return 0;
+	}
 	[CCode (cname = "FLT_ROUNDS")]
 	public const int ROUNDS;
 	[CCode (cname = "FLT_RADIX")]

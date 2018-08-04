@@ -21,4 +21,22 @@ namespace System
         public abstract void Dispose();
     }
 
+    [CCode (has_target = false)]
+    public delegate void UseFunc(IDisposable object);
+
+    public void using(IDisposable object, UseFunc use)
+    {
+        try
+        {
+            use(object);
+        }
+        catch (Error e)
+        {
+            stderr.printf("%s\n", e.message);
+        }
+        finally 
+        {
+            object.Dispose();
+        }
+    }
 }
