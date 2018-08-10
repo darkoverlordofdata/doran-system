@@ -1349,6 +1349,19 @@ public class string {
 	[CCode (cname = "g_strndup")]
 	static string strndup (char* str, size_t n);
 
+	/**
+	 * like javascript substring(start, end)
+	 */
+	public string substr (long offset, long end = -1) 
+	{
+		if (end == -1) end = this.length;
+		long len = end-offset;
+		return strndup ((char*) this + offset, len);
+	}
+
+	/**
+	 * like javascript substr(start, length)
+	 */
 	public string substring (long offset, long len = -1) {
 		long string_length;
 		if (offset >= 0 && len >= 0) {
