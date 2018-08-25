@@ -95,7 +95,9 @@ namespace System.Xml
                 // if the stack is empty, and this text node isn't just Whitespace, we have
                 // a problem (we're not in a document element)
                 if(TopNode==null) {
-                    if (Trim(current.Content,true,false)=="") {
+
+                    if (current.Content.trim(true,false)=="") {
+                    // if (Trim(current.Content,true,false)=="") {
                         return true;
                     }
                     else {
@@ -374,7 +376,8 @@ namespace System.Xml
         
             // extract the parameter name
         
-            var paramname = Trim(src.substr(p1,pos++),false,true);
+            // var paramname = Trim(src.substr(p1,pos++),false,true);
+            var paramname = src.substr(p1,pos++).trim(false,true);
         
             // chew up Whitespace
         
@@ -414,7 +417,8 @@ namespace System.Xml
         
             // store the parameter
         
-            if (!node.AddAttribute(paramname, Trim(src.substr(p1,pos++),false,true))) {
+            // if (!node.AddAttribute(paramname, Trim(src.substr(p1,pos++),false,true))) {
+            if (!node.AddAttribute(paramname, src.substr(p1,pos++).trim(false,true))) {
                 return 0;
             }
         
@@ -558,7 +562,8 @@ namespace System.Xml
         
             // trim the Whitespace off the remaining content
         
-            src = Trim(src,true,true);
+            // src = Trim(src,true,true);
+            src = src.trim();
         
             // chuck out an error if there's nothing left
         

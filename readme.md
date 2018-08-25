@@ -1,5 +1,12 @@
 # system
 
-Vala API Compatibility with the Microsoft System namespace
+Vala really needs a robust framework. GLib is ok, but... it should be written in vala.
+Gee is a step in the right direction.  I don't have time to write the whole fx, so 
+I've ported some chunks of opensource dotnet and open jdk, along with some of Jurg's 
+original Gee. It's a mish-mosh of licensing - GPL, BSD, MIT, and Apache:
 
-used with csharp ports
+    types       - java.lang
+    io          - java.io
+    json        - org.json
+    collections - gee 
+    core & xna  - dotnet

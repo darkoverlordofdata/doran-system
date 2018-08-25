@@ -23,18 +23,28 @@ namespace System.IO
 		private File file;
 		private string path;
 		private FileType type;
+		private FileStream stream;
 
 		public FileHandle(string path, FileType type = FileType.Relative) 
         {
 			this.type = type;
 			this.path = path;
 			this.file = new File(path);
+			stream = FileStream.open(path, "r");
 		}
 
 
 		public string Read() 
         {
-            return file.Read();
+            // return file.Read();
+			if (!file.Exists()) return "";
+			string result = "";
+			char buf[100];
+			while (stream.gets(buf) != null) {
+				result += (string) buf;
+			}
+			return result;
+
 		}
 
 		public FileType GetType() 
@@ -78,7 +88,7 @@ namespace System.IO
 		 */
 		public FileHandle Child(string name) 
         {
-            return new FileHandle(file.GetPath() + PathSeparator + name, type);
+            return new FileHandle(file.GetPath() + File.Separator + name, type);
 		}
 	}
 }

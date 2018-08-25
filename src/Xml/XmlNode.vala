@@ -424,7 +424,8 @@ namespace System.Xml
             XmlNode node;
             ArrayList<XmlNode> nodeList;
 
-            var tagPath = Trim(path, true, true);
+            // var tagPath = Trim(path, true, true);
+            var tagPath = path.trim();
             
             if (Source == null) 
                 return null;

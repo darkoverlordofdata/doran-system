@@ -38,12 +38,6 @@
 
 namespace System.Xml
 {
-    public errordomain XmlDomError 
-    {
-        ParseError
-    }
-    // CONSTANTS
-
     // =========================================================================
     // =========================================================================
     // =========================================================================
@@ -254,12 +248,14 @@ namespace System.Xml
                 }
     
                 else if(childNode.NodeType==XMLNodeType.TEXT) {
-                    var cont = Trim(childNode.Content,true,true);
+                    // var cont = Trim(childNode.Content,true,true);
+                    var cont = childNode.Content.trim();
                     strRet = strRet + childNode.Content;
                 }
     
                 else if (childNode.NodeType==XMLNodeType.CDATA) {
-                    var cont = Trim(childNode.Content,true,true);
+                    // var cont = Trim(childNode.Content,true,true);
+                    var cont = childNode.Content.trim();
                     strRet = strRet + "<![CDATA[" + cont + "]]>";
                 }
     
@@ -324,34 +320,34 @@ namespace System.Xml
         and trailing (rightTrim) Whitespace
 
     *********************************************************************************************************************/
-    internal string Trim(string trimString, bool leftTrim=true, bool rightTrim=true) 
-    {
-        if (IsEmpty(trimString)) {
-            return "";
-        }
+    // internal string Trim(string trimString, bool leftTrim=true, bool rightTrim=true) 
+    // {
+    //     if (IsEmpty(trimString)) {
+    //         return "";
+    //     }
     
-        // the general focus here is on minimal method calls - hence only one
-        // substring is done to complete the trim.
+    //     // the general focus here is on minimal method calls - hence only one
+    //     // substring is done to complete the trim.
     
-        var left=0;
-        var right=0;
-        var i=0;
-        var k=0;
+    //     var left=0;
+    //     var right=0;
+    //     var i=0;
+    //     var k=0;
     
-        // modified to properly handle strings that are all Whitespace
-        if (leftTrim == true) {
-            while ((i<trimString.length) && (Whitespace.index_of(trimString.substring(i++,1))!=-1)) {
-                left++;
-            }
-        }
-        if (rightTrim == true) {
-            k=trimString.length-1;
-            while ((k>=left) && (Whitespace.index_of(trimString.substring(k--,1))!=-1)) {
-                right++;
-            }
-        }
-        return trimString.substr(left, trimString.length - right);
-    } // end function trim    
+    //     // modified to properly handle strings that are all Whitespace
+    //     if (leftTrim == true) {
+    //         while ((i<trimString.length) && (Whitespace.index_of(trimString.substring(i++,1))!=-1)) {
+    //             left++;
+    //         }
+    //     }
+    //     if (rightTrim == true) {
+    //         k=trimString.length-1;
+    //         while ((k>=left) && (Whitespace.index_of(trimString.substring(k--,1))!=-1)) {
+    //             right++;
+    //         }
+    //     }
+    //     return trimString.substr(left, trimString.length - right);
+    // } // end function trim    
 
     
 }

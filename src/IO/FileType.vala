@@ -15,10 +15,6 @@
  ******************************************************************************/
 namespace System.IO
 {
-    public errordomain IOException 
-    {
-        InvalidData
-    }
 
 
     public enum FileType 

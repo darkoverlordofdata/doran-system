@@ -27,6 +27,197 @@
  *	Raffaele Sandrini <rasa@gmx.ch>
  *	Mathias Hasselmann <mathias.hasselmann@gmx.de>
  */
+ 
+[CCode (cprefix = "", lower_case_cprefix = "")]
+namespace Stdio {
+	[SimpleType]
+	[IntegerType (rank = 9)]
+	[CCode (cheader_filename = "sys/types.h", has_type_id = false)]
+	public struct ino_t {
+	}
+	[SimpleType]
+	[IntegerType (rank = 9)]
+	[CCode (cname="off_t", cheader_filename = "sys/types.h", has_type_id = false)]
+	public struct off_t {
+	}
+	[SimpleType]
+	[IntegerType (rank = 9)]
+	[CCode (cheader_filename = "sys/types.h", has_type_id = false)]
+	public struct dev_t {
+	}
+	[SimpleType]
+	[IntegerType (rank = 9)]
+	[CCode (cname = "mode_t", cheader_filename = "sys/types.h", has_type_id = false)]
+	public struct mode_t {
+	}
+	[SimpleType]
+	[IntegerType (rank = 9)]
+	[CCode (cheader_filename = "sys/types.h", has_type_id = false)]
+	public struct uid_t {
+	}
+	[SimpleType]
+	[IntegerType (rank = 9)]
+	[CCode (cheader_filename = "sys/types.h", has_type_id = false)]
+	public struct gid_t {
+	}
+	[SimpleType]
+	[IntegerType (rank = 9)]
+	[CCode (cheader_filename = "sys/types.h", has_type_id = false)]
+	public struct nlink_t {
+	}
+	[CCode (cname = "struct timespec", cheader_filename = "time.h", has_type_id = false)]
+	public struct timespec {
+		public time_t tv_sec;
+		public long tv_nsec;
+	}
+	[SimpleType]
+	[IntegerType (rank = 9)]
+	[CCode (cheader_filename = "sys/types.h", has_type_id = false)]
+	public struct blksize_t {
+	}
+	[SimpleType]
+	[IntegerType (rank = 9)]
+	[CCode (cheader_filename = "sys/types.h", has_type_id = false)]
+	public struct blkcnt_t {
+	}
+	
+	[CCode (cheader_filename = "sys/stat.h")]
+	public bool S_ISBLK (mode_t mode);
+	[CCode (cheader_filename = "sys/stat.h")]
+	public bool S_ISCHR (mode_t mode);
+	[CCode (cheader_filename = "sys/stat.h")]
+	public bool S_ISDIR (mode_t mode);
+	[CCode (cheader_filename = "sys/stat.h")]
+	public bool S_ISFIFO (mode_t mode);
+	[CCode (cheader_filename = "sys/stat.h")]
+	public bool S_ISREG (mode_t mode);
+	[CCode (cheader_filename = "sys/stat.h")]
+	public bool S_ISLNK (mode_t mode);
+	[CCode (cheader_filename = "sys/stat.h")]
+	public bool S_ISSOCK (mode_t mode);
+
+	[Compact]
+	[CCode (cname = "struct dirent", cheader_filename = "dirent.h")]
+	public class DirEnt {
+		public ino_t d_ino;
+		public off_t d_off;
+		public ushort d_reclen;
+		public char d_type;
+		public char d_name[256];
+	}
+
+	[Compact]
+	[CCode (cname = "DIR", free_function = "closedir", cheader_filename = "dirent.h")]
+	public class Dir {
+	}
+
+	[CCode (cheader_filename = "dirent.h")]
+	public int dirfd (Dir dir);
+	[CCode (cheader_filename = "dirent.h")]
+	public Dir? opendir (string filename);
+	[CCode (cheader_filename = "dirent.h")]
+	public Dir? fdopendir (int fd);
+	[CCode (cheader_filename = "dirent.h")]
+	public unowned DirEnt? readdir (Dir dir);
+	[CCode (cheader_filename = "dirent.h")]
+	public void rewinddir (Dir dir);
+	[CCode (cheader_filename = "dirent.h")]
+	public void seekdir (Dir dir, long pos);
+	[CCode (cheader_filename = "dirent.h")]
+	public long telldir (Dir dir);
+
+	[CCode (cheader_filename = "sys/stat.h", cname = "struct stat", has_type_id = false)]
+	public struct Stat {
+		public dev_t st_dev;
+		public ino_t st_ino;
+		public mode_t st_mode;
+		public nlink_t st_nlink;
+		public uid_t st_uid;
+		public gid_t st_gid;
+		public dev_t st_rdev;
+		public size_t st_size;
+		public timespec st_atim;
+		public time_t st_atime;
+		public timespec st_mtim;
+		public time_t st_mtime;
+		public timespec st_ctim;
+		public time_t st_ctime;
+		public blksize_t st_blksize;
+		public blkcnt_t st_blocks;
+	}
+	[CCode (cheader_filename = "sys/stat.h")]
+	int fstat( int fd, out Stat buf);
+	[CCode (cheader_filename = "sys/stat.h")]
+	int stat (string filename, out Stat buf);
+	[CCode (cheader_filename = "sys/stat.h")]
+	int lstat (string filename, out Stat buf);
+
+	[CCode (cheader_filename = "stdio.h")]
+	public FILE fopen (string path, string mode);
+
+	[Compact]
+	[CCode (cname = "FILE", free_function = "fclose", cheader_filename = "stdio.h")]
+	public class FILE {
+		[CCode (cname = "EOF", cheader_filename = "stdio.h")]
+		public const int EOF;
+		[CCode (cname = "SEEK_SET", cheader_filename = "stdio.h")]
+		public const int SEEK_SET;
+		[CCode (cname = "SEEK_CUR", cheader_filename = "stdio.h")]
+		public const int SEEK_CUR;
+		[CCode (cname = "SEEK_END", cheader_filename = "stdio.h")]
+		public const int SEEK_END;
+
+		[CCode (cname = "fopen")]
+		public static FILE? open (string path, string mode);
+		[CCode (cname = "fdopen")]
+		public static FILE? fdopen (int fildes, string mode);
+		[CCode (cname = "popen")]
+		public static FILE? popen (string command, string mode);
+
+		[CCode (cname = "fprintf")]
+		[PrintfFormat ()]
+		public int printf (string format, ...);
+		[CCode (cname = "fputc", instance_pos = -1)]
+		public int putc (char c);
+		[CCode (cname = "fputs", instance_pos = -1)]
+		public int puts (string s);
+		[CCode (cname = "fwrite", instance_pos = -1)]
+		public size_t write (void *ptr, size_t size, size_t nmemb);
+		[CCode (cname = "fread", instance_pos = -1)]
+		public size_t read (void *ptr, size_t size, size_t nmemb);
+		[CCode (cname = "fgetc")]
+		public int getc ();
+		[CCode (cname = "fgets", instance_pos = -1)]
+		public unowned string? gets (char[] s);
+		[CCode (cname = "feof")]
+		public bool eof ();
+		[CCode (cname = "fscanf"), ScanfFormat]
+		public int scanf (string format, ...);
+		[CCode (cname = "fflush")]
+		public int flush ();
+		[CCode (cname = "fseek")]
+		public int seek (long offset, int whence);
+		[CCode (cname = "ftell")]
+		public long tell ();
+		[CCode (cname = "rewind")]
+		public void rewind ();
+		[CCode (cname = "fileno")]
+		public int fileno ();
+		[CCode (cname = "ferror")]
+		public int error ();
+		[CCode (cname = "clearerr")]
+		public void clearerr ();
+	}
+
+	public static FILE stderr;
+	public static FILE stdout;
+	public static FILE stdin;
+
+	[CCode (cheader_filename = "stdio.h")]
+	public void perror (string s);
+
+}
+
 [SimpleType]
 [GIR (name = "gboolean")]
 [CCode (cname = "gboolean", cheader_filename = "glib.h", type_id = "G_TYPE_BOOLEAN", marshaller_type_name = "BOOLEAN", get_value_function = "g_value_get_boolean", set_value_function = "g_value_set_boolean", default_value = "FALSE", type_signature = "b")]
@@ -1047,6 +1238,21 @@ public class string {
 		}
 	}
 
+	public bool Equals(string other)
+	{
+		return this == other;
+	}
+
+	[CCode (cname = "g_strcmp0")]
+	public int CompareTo (string other);
+	// {
+	// 	if (this < other) 
+	// 		return -1;
+	// 	else if (this > other)
+	// 		return 1;
+	// 	else return 0;
+	// }
+
 	public int index_of_char (unichar c, int start_index = 0) {
 		char* result = utf8_strchr ((char*) this + start_index, -1, c);
 
@@ -1065,6 +1271,11 @@ public class string {
 		} else {
 			return -1;
 		}
+	}
+
+	public static string char(int c)
+	{
+		return string.strndup((char*)&c, 1);
 	}
 
 	[Version (since = "2.2")]
@@ -1347,10 +1558,10 @@ public class string {
 	}
 
 	[CCode (cname = "g_strndup")]
-	static string strndup (char* str, size_t n);
+	public static string strndup (char* str, size_t n);
 
 	/**
-	 * like javascript substring(start, end)
+	 * like java/javascript substring(start, end)
 	 */
 	public string substr (long offset, long end = -1) 
 	{
@@ -1358,6 +1569,18 @@ public class string {
 		long len = end-offset;
 		return strndup ((char*) this + offset, len);
 	}
+
+	[CCode (cname = "g_str_has_suffix")]
+	public bool ends_with(string s);
+	// {
+    // 	return this.substring(this.length-s.length, s.length) == s;
+	// }
+
+	[CCode (cname = "g_str_has_prefix")]
+	public bool starts_with(string s);
+	// {
+	// 	return this.substring(0, s.length) == s;
+	// }
 
 	/**
 	 * like javascript substr(start, length)
@@ -1440,12 +1663,12 @@ public class string {
 		var str = this;
 		var i = str.index_of(old);
 
-		do
+		if (i >= 0) do
 		{
 			var s1 = str.substring(0, i);
 			var s2 = str.substring(i+old.length);
 			str = s1 + replacement + s2;
-			i = str.index_of(old);
+			i = str.index_of(old, i+replacement.length);
 			
 		} while (i >= 0);
 		return str;
@@ -1462,6 +1685,42 @@ public class string {
 	// 		GLib.assert_not_reached ();
 	// 	}
 	// }
+
+    public string trim(bool leftTrim = true, bool rightTrim = true) {
+        int st = 0;
+        int len = this.length;
+
+        if (leftTrim == true) 
+		{
+			while ((st < len) && (this[st] <= ' ')) {
+				st++;
+			}
+		}
+
+        if (rightTrim == true) 
+		{
+			while ((st < len) && (this[len - 1] <= ' ')) {
+				len--;
+			}
+		}
+        return ((st > 0) || (len < this.length)) ? substring(st, len-st) : this;
+    }
+
+
+	public bool get_chars(int srcBegin, int srcEnd, char[] dst, int dstBegin)
+	{
+        if (srcBegin < 0) {
+			return false;
+        }
+        if (srcEnd > this.length) {
+			return false;
+        }
+        if (srcBegin > srcEnd) {
+			return false;
+        }
+		GLib.Memory.move((char*)dst+dstBegin, (char*)this+dstBegin, srcEnd - srcBegin);
+		return true;
+	}
 
 	[CCode (cname = "g_utf8_strlen")]
 	public int char_count (ssize_t max = -1);
@@ -3684,6 +3943,8 @@ namespace GLib {
 		public static Dir open (string filename, uint _flags = 0) throws FileError;
 		public unowned string? read_name ();
 		public void rewind ();
+		[CCode (cname = "getcwd")]
+		public static char* cwd(char[] buffer);
 	}
 
 	[CCode (cheader_filename = "glib/gstdio.h")]
@@ -5965,6 +6226,7 @@ namespace GLib {
 		[CCode (cname = "g_unicode_script_from_iso15924")]
 		public static GLib.UnicodeScript from_iso15924 (uint32 iso15924);
 	}
+	
 
 	[CCode (cname = "GUnicodeType", cprefix = "G_UNICODE_", has_type_id = false)]
 	public enum UnicodeType {

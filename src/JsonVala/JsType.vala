@@ -1,5 +1,5 @@
 /* ******************************************************************************
- * Copyright 2018 darkoverlordofdata.
+ * Copyright 2017 darkoverlordofdata.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,30 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-/**
- * API Compatibility with the Microsoft System namespace
- */
-
-
-namespace System 
+namespace System.Json
 {
-
-    /* shim resets the syntax highlighting in VSCode */
-    private void shim() {}
-
-    public void arraycopy<T>(T* src, int srcPos, T* dest, int destPos, int length)
+    public errordomain JsonException 
     {
-        Memory.copy(dest+destPos, src+srcPos, length*sizeof(T));
+        SyntaxError,
+        UnexpectedCharacter,
+        InvalidString,
+        InvalidArray,
+        InvalidObject,
+        DuplicateKey
     }
 
-    public void println(string s, ...)
+    public enum JsType 
     {
-        stdout.vprintf(s+"\n", va_list());
+        JS_INVALID,
+        JS_BOOLEAN,
+        JS_NUMBER,
+        JS_STRING,
+        JS_OBJECT,
+        JS_ARRAY
     }
 
-    public void Initialize()
-    {
-        TimeSpan.Initialize();
-        EventArgs.Initialize();
-    }
+    public delegate JsVariant JsDelegate(JsVariant holder, string key, JsVariant value);
+
 }

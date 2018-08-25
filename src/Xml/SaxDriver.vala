@@ -2,55 +2,6 @@ namespace System.Xml
 {
     using System.Collections.Generic;
 
-    public errordomain SAX
-    {
-        SaxException,
-        SaxNotRecognizedException,
-        SaxNotSupportedException,
-        SaxParseException
-    }
-
-    public interface Locator : Object
-    {
-        public abstract int GetColumnNumber();
-        public abstract int GetLineNumber();
-        public abstract string GetPublicId();
-        public abstract string GetSystemId();
-
-    }
-    public abstract class DefaultHandler : Object
-    {
-        public virtual void Characters(string data, int start, int len){}
-        public virtual void Comment(string data, int start, int len){}
-        public virtual void EndCDATA(){}
-        public virtual void EndDocument(){}
-        public virtual void EndElement(string tagName){}
-        public virtual void Error(SAX exception){}
-        public virtual void FatalError(SAX exception){}
-        public virtual void ProcessingInstruction(string tagName, string data){}
-        public virtual void SetDocumentLocator(Locator locator){}
-        public virtual void StartCDATA(){}
-        public virtual void StartDocument(){}
-        public virtual void StartElement(string tagName, SaxDriver attr){}
-    }
-
-    public interface XmlReader : Object
-    {
-        public abstract void Parse(string input);
-        public abstract void SetDocumentHandler(DefaultHandler hnd);
-        public abstract void SetErrorHandler(DefaultHandler hnd);
-        public abstract void SetLexicalHandler(DefaultHandler hnd);
-        
-    }
-
-    public interface AttributeList : Object
-    {
-        public abstract int GetLength();
-        public abstract string GetName(int index);
-        public abstract string GetValue(int index);
-        public abstract string GetValueByName(string name);
-    }
-    
     /***************************************************************************************************************
     SaxDriver is an object that basically wraps an XmlPullParser instance, and provides an
     event-based interface for parsing. This is the object users interact with when coding

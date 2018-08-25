@@ -17,15 +17,15 @@ namespace System.IO
 {
 	public class DataInputStream : Object 
     {
-		public string[] data; 
+		public string[] data;
 		public int ctr;
-		public DataInputStream(string data) 
+		public DataInputStream(string data)
         {
 			this.data = data.split("\n");
 			ctr = 0;
 		}
 
-		public string? ReadLine() 
+		public string? ReadLine()
         {
 			return ctr<data.length ? data[ctr++] : null;
 		}

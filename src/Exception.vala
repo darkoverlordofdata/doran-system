@@ -13,14 +13,50 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-namespace System
+
+public errordomain System.Exception 
 {
-    public errordomain Exception 
-    {
-        ArgumentException,
-        OverflowException,
-        ArgumentOutOfRangeException,
-        InvalidOperationException
-    }
-    
+    ArgumentException,
+    ArgumentOutOfRangeException,
+    IllegalArgumentException,
+    IllegalStateException,
+    IndexOutOfBoundsException,
+    InvalidOperationException,
+    NotImplemented,
+    NullPointerException,
+    NumberFormatException,
+    OutOfMemoryError,
+    OverflowException,
+    StringIndexOutOfBoundsException    
 }
+
+public errordomain System.IOException 
+{
+    Exception,
+    FileNotFoundException,
+    IllegalArgumentException,
+    IndexOutOfBoundsException,
+    InternalError,
+    InvalidData,
+    NotSupported,
+}
+
+public errordomain System.JSONException {
+    Exception,
+    IOException,
+    PointerException
+}
+
+public errordomain System.XmlDomError 
+{
+    ParseError
+}
+
+public errordomain System.SAX
+{
+    SaxException,
+    SaxNotRecognizedException,
+    SaxNotSupportedException,
+    SaxParseException
+}
+
