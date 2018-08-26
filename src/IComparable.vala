@@ -20,4 +20,8 @@ namespace System
     {
         public abstract int CompareTo(T other);
     }
+
+    public interface ICloneable : Object 
+    {
+    }
 }

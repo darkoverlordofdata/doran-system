@@ -1298,6 +1298,29 @@ public class string {
 	public string compress ();
 	[CCode (cname = "g_strsplit", array_length = false, array_null_terminated = true)]
 	public string[] split (string delimiter, int max_tokens = 0);
+	public string[] Split (string regex, int max_tokens = 0)
+	{
+        /* fastpath if the regex is a
+         (1)one-char String and this character is not one of the
+            RegEx's meta characters ".$|()[{^?*+\\", or
+         (2)two-char String and the first char is the backslash and
+            the second is not the ascii digit or ascii letter.
+         */
+		unichar ch = 0;
+		if (((regex.length == 1 && 
+			".$|()[{^?*+\\".index_of_char(ch = regex.get_char(0)) == -1) || 
+             (regex.length == 2 &&
+              regex.get_char(0) == '\\' &&
+              (((ch = regex.get_char(1))-'0')|('9'-ch)) < 0 &&
+              ((ch-'a')|('z'-ch)) < 0 &&
+              ((ch-'A')|('Z'-ch)) < 0)) &&
+            (ch < System.Character.MIN_HIGH_SURROGATE ||
+             ch > System.Character.MAX_LOW_SURROGATE))
+		{
+			return this.split(regex, max_tokens);
+		}
+    	return System.Regex.Pattern.Compile(regex).Split(this, max_tokens);
+	}
 	[Version (since = "2.4")]
 	[CCode (cname = "g_strsplit_set", array_length = false, array_null_terminated = true)]
 	public string[] split_set (string delimiters, int max_tokens = 0);
@@ -1555,6 +1578,21 @@ public class string {
 		} else {
 			return (long) (end - str);
 		}
+	}
+
+	public string ReplaceAll(string regex, string repl)
+	{
+        return System.Regex.Pattern.Compile(regex).GetMatcher(this).ReplaceAll(repl);
+	}
+
+	public string ReplaceFirst(string regex, string repl)
+	{
+        return System.Regex.Pattern.Compile(regex).GetMatcher(this).ReplaceFirst(repl);
+	}
+
+	public bool Matches(string regex)
+	{
+		return System.Regex.Pattern.Matches(regex, this);
 	}
 
 	[CCode (cname = "g_strndup")]

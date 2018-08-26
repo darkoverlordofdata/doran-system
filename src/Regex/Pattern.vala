@@ -94,7 +94,7 @@ public class System.Regex.Pattern : Object
      *
      * <p>The flags CASE_INSENSITIVE and UNICODE_CASE retain their impact on
      * matching when used in conjunction with this flag. The other flags
-     * become basefluous.
+     * become superfluous.
      *
      * <p> There is no embedded flag character for enabling literal parsing.
      * @since 1.5
@@ -340,7 +340,7 @@ public class System.Regex.Pattern : Object
         if (!compiled) {
             lock(this.lock) {
                 if (!compiled)
-                    DoCompile();
+                    compileImpl();
             }
         }
         Matcher m = new Matcher(this, input);
@@ -480,8 +480,9 @@ public class System.Regex.Pattern : Object
         }
 
         // If no match was found, return this
-        if (index == 0)
+        if (index == 0) {
             return new string[] {input};
+        }
 
         // Add remaining segment
         if (!matchLimited || matchList.Count < limit)
@@ -493,6 +494,7 @@ public class System.Regex.Pattern : Object
             while (resultSize > 0 && matchList[resultSize-1].Equals(""))
                 resultSize--;
         // string[] result = new string[resultSize];
+        println("matchList %d", matchList.Count);
         return matchList.ToArray();
     }
 
@@ -582,7 +584,7 @@ public class System.Regex.Pattern : Object
         LocalCount = 0;
 
         if (pattern.length > 0) {
-            DoCompile();
+            compileImpl();
         } else {
             Root = new Start(LastAccept);
             MatchRoot = LastAccept;
@@ -593,7 +595,7 @@ public class System.Regex.Pattern : Object
      * The pattern is converted to normalizedD form and then a pure group
      * is constructed to match canonical equivalences of the characters.
      */
-    private void Normalize() 
+    private void normalize() 
     {
         bool inCharClass = false;
         int lastCodePoint = -1;
@@ -604,7 +606,7 @@ public class System.Regex.Pattern : Object
 
         // Modify pattern to match canonical equivalences
         StringBuilder newPattern = new StringBuilder();
-        for(int i=0; i<patternLength; ) {
+        for (int i=0; i<patternLength; ) {
             unichar c = normalizedPattern.get_char(i);
             StringBuilder sequenceBuffer;
             if ((c.type() == UnicodeType.NON_SPACING_MARK)
@@ -619,12 +621,12 @@ public class System.Regex.Pattern : Object
                     c = normalizedPattern.get_char(i);
                     sequenceBuffer.append_unichar(c);
                 }
-                string ea = ProduceEquivalentAlternation(
+                string ea = produceEquivalentAlternation(
                                                sequenceBuffer.str);
                 newPattern.truncate(newPattern.len-Character.CharCount(lastCodePoint));
                 newPattern.append("(?:").append(ea).append(")");
             } else if (c == '[' && lastCodePoint != '\\') {
-                i = NormalizeCharClass(newPattern, i);
+                i = normalizeCharClass(newPattern, i);
             } else {
                 newPattern.append_unichar(c);
             }
@@ -639,7 +641,7 @@ public class System.Regex.Pattern : Object
      * of alternations to it that will match the canonical equivalences
      * of the characters within the class.
      */
-    private int NormalizeCharClass(StringBuilder newPattern, int i) 
+    private int normalizeCharClass(StringBuilder newPattern, int i) 
     {
         StringBuilder charClass = new StringBuilder();
         StringBuilder eq = null;
@@ -665,7 +667,7 @@ public class System.Regex.Pattern : Object
                         break;
                     c = normalizedPattern.get_char(i);
                 }
-                string ea = ProduceEquivalentAlternation(
+                string ea = produceEquivalentAlternation(
                                                   sequenceBuffer.str);
 
                 charClass.truncate(charClass.len-Character.CharCount(lastCodePoint));
@@ -697,7 +699,7 @@ public class System.Regex.Pattern : Object
      * combining marks that follow it, produce the alternation that will
      * match all canonical equivalences of that sequence.
      */
-    private string ProduceEquivalentAlternation(string source) 
+    private string produceEquivalentAlternation(string source) 
     {
         int len = countChars(source, 0, 1);
         if (source.length == len)
@@ -707,17 +709,17 @@ public class System.Regex.Pattern : Object
         string sbase = source.substring(0,len);
         string combiningMarks = source.substring(len);
 
-        string[] perms = ProducePermutations(combiningMarks);
+        string[] perms = producePermutations(combiningMarks);
         StringBuilder result = new StringBuilder(source);
 
         // Add combined permutations
-        for(int x=0; x<perms.length; x++) {
+        for (int x=0; x<perms.length; x++) {
             string next = sbase + perms[x];
             if (x>0)
                 result.append("|"+next);
-            next = ComposeOneStep(next);
+            next = composeOneStep(next);
             if (next != null)
-                result.append("|"+ProduceEquivalentAlternation(next));
+                result.append("|"+produceEquivalentAlternation(next));
         }
         return result.str;
     }
@@ -731,7 +733,7 @@ public class System.Regex.Pattern : Object
      * possibilities must be removed because they are not canonically
      * equivalent.
      */
-    private string[] ProducePermutations(string input) 
+    private string[] producePermutations(string input) 
     {
         if (input.length == countChars(input, 0, 1))
             return new string[] {input};
@@ -739,7 +741,7 @@ public class System.Regex.Pattern : Object
         if (input.length == countChars(input, 0, 2)) {
             int c0 = Character.CodePointAt(input, 0);
             int c1 = Character.CodePointAt(input, Character.CharCount(c0));
-            if (GetClass(c1) == GetClass(c0)) {
+            if (getClass(c1) == getClass(c0)) {
                 return new string[] {input};
             }
             string[] result = new string[2];
@@ -753,15 +755,15 @@ public class System.Regex.Pattern : Object
 
         int length = 1;
         int nCodePoints = countCodePoints(input);
-        for(int x=1; x<nCodePoints; x++)
+        for (int x=1; x<nCodePoints; x++)
             length = length * (x+1);
 
         string[] temp = new string[length];
 
         int[] combClass = new int[nCodePoints];
-        for(int x=0, i=0; x<nCodePoints; x++) {
+        for (int x=0, i=0; x<nCodePoints; x++) {
             int c = Character.CodePointAt(input, i);
-            combClass[x] = GetClass(c);
+            combClass[x] = getClass(c);
             i +=  Character.CharCount(c);
         }
 
@@ -771,10 +773,10 @@ public class System.Regex.Pattern : Object
         int len = 0;
         // offset maintains the index in code units.
 // loop:   
-        for(int x=0, offset=0; x<nCodePoints; x++, offset+=len) {
+        for (int x=0, offset=0; x<nCodePoints; x++, offset+=len) {
             var skip = false;
             len = countChars(input, offset, 1);
-            for(int y=x-1; y>=0; y--) {
+            for (int y=x-1; y>=0; y--) {
                 if (combClass[y] == combClass[x]) {
                     skip = true;
                     break;
@@ -784,10 +786,10 @@ public class System.Regex.Pattern : Object
             if (skip) continue;
             StringBuilder sb = new StringBuilder(input);
             string otherChars = sb.erase(offset, len).str;
-            string[] subResult = ProducePermutations(otherChars);
+            string[] subResult = producePermutations(otherChars);
 
             string prefix = input.substr(offset, offset+len);
-            for(int y=0; y<subResult.length; y++)
+            for (int y=0; y<subResult.length; y++)
                 temp[index++] =  prefix + subResult[y];
         }
         string[] result = new string[index];
@@ -796,7 +798,7 @@ public class System.Regex.Pattern : Object
         return result;
     }
 
-    private int GetClass(int c) 
+    private int getClass(int c) 
     {
         // Default value is that no reordering should take place
         return 0;
@@ -812,7 +814,7 @@ public class System.Regex.Pattern : Object
      * combining mark followed by the remaining combining marks. Returns
      * null if the first two characters cannot be further composed.
      */
-    private string ComposeOneStep(string input) 
+    private string composeOneStep(string input) 
     {
         int len = countChars(input, 0, 2);
         string firstTwoCharacters = input.substring(0, len);
@@ -830,7 +832,7 @@ public class System.Regex.Pattern : Object
      * Preprocess any \Q...\E sequences in `temp', meta-quoting them.
      * See the description of `quotemeta' in perlfunc(1).
      */
-    private void RemoveQEQuoting() {
+    private void removeQEQuoting() {
         int pLen = patternLength;
         int i = 0;
         while (i < pLen-1) {
@@ -903,11 +905,11 @@ public class System.Regex.Pattern : Object
      * Copies regular expression to an int array and invokes the parsing
      * of the expression which will create the object tree.
      */
-    private void DoCompile() 
+    private void compileImpl() 
     {
         // Handle canonical equivalences
         if (has(CANON_EQ) && !has(LITERAL)) {
-            Normalize();
+            normalize();
         } else {
             normalizedPattern = pattern;
         }
@@ -931,7 +933,7 @@ public class System.Regex.Pattern : Object
         patternLength = count;   // patternLength now in code points
 
         if (! has(LITERAL))
-            RemoveQEQuoting();
+            removeQEQuoting();
 
         // Allocate all temporary objects here.
         Buffer = new int[32];
@@ -985,24 +987,24 @@ public class System.Regex.Pattern : Object
     /**
      * Used to print out a subtree of the Pattern to help with debugging.
      */
-    private static void PrintObjectTree(Node node) 
+    private static void printObjectTree(Node node) 
     {
         while(node != null) {
             if (node is Prolog) {
                 println(node.to_string());
-                PrintObjectTree(((Prolog)node).loop);
+                printObjectTree(((Prolog)node).loop);
                 println("**** end contents prolog loop");
             } else if (node is Loop) {
                 println(node.to_string());
-                PrintObjectTree(((Loop)node).body);
+                printObjectTree(((Loop)node).body);
                 println("**** end contents Loop body");
             } else if (node is Curly) {
                 println(node.to_string());
-                PrintObjectTree(((Curly)node).atom);
+                printObjectTree(((Curly)node).atom);
                 println("**** end contents Curly body");
             } else if (node is GroupCurly) {
                 println(node.to_string());
-                PrintObjectTree(((GroupCurly)node).atom);
+                printObjectTree(((GroupCurly)node).atom);
                 println("**** end contents GroupCurly body");
             } else if (node is GroupTail) {
                 println(node.to_string());
@@ -2630,7 +2632,6 @@ public class System.Regex.Pattern : Object
     {
         public bool[] bits;
         public BitClass() { 
-            base();
             bits = new bool[256]; 
             isSatisfiedBy = (ch) => {
                 return ch < 256 && bits[ch];
@@ -2770,7 +2771,6 @@ public class System.Regex.Pattern : Object
     {
         public int minLength;
         public Start(Node node) {
-            base();
             next = node;
             TreeInfo info = new TreeInfo();
             next.study(info);
@@ -2967,7 +2967,6 @@ public class System.Regex.Pattern : Object
     {
         public bool multiline;
         public Dollar(bool mul) {
-            base();
             multiline = mul;
         }
         public override bool match(Matcher matcher, int i, string seq) {
@@ -3030,7 +3029,6 @@ public class System.Regex.Pattern : Object
     {
         public bool multiline;
         public UnixDollar(bool mul) {
-            base();
             multiline = mul;
         }
         public override bool match(Matcher matcher, int i, string seq) {
@@ -3103,7 +3101,10 @@ public class System.Regex.Pattern : Object
     public class CharProperty : Node 
     {
         // public abstract bool isSatisfiedBy(int ch);
-        public IsSatisfiedBy? isSatisfiedBy; //= (ch) => { false; }
+        /**
+         * Implement as delegate to emulate anonymous abstract class
+         */
+        public IsSatisfiedBy? isSatisfiedBy; 
         public CharProperty complement() {
             CharProperty that = this;
             return new CharProperty() {
@@ -3151,7 +3152,6 @@ public class System.Regex.Pattern : Object
     {
         public int c;
         public SingleS(int c) { 
-            base();
             this.c = c; 
             isSatisfiedBy = (ch) => {
                 return ch == c;
@@ -3166,7 +3166,6 @@ public class System.Regex.Pattern : Object
     {
         public int c;
         public Single(int c) { 
-            base();
             this.c = c; 
             isSatisfiedBy = (ch) => {
                 return ch == c;
@@ -3182,7 +3181,6 @@ public class System.Regex.Pattern : Object
         public int lower;
         public int upper;
         public SingleI(int lower, int upper) {
-            base();
             this.lower = lower;
             this.upper = upper;
             isSatisfiedBy = (ch) => {
@@ -3198,7 +3196,6 @@ public class System.Regex.Pattern : Object
     {
         public int lower;
         public SingleU(int lower) {
-            base();
             this.lower = lower;
             isSatisfiedBy = (ch) => {
                 return lower == ch ||
@@ -3214,7 +3211,6 @@ public class System.Regex.Pattern : Object
     {
         public Character.UnicodeBlock block;
         public Block(Character.UnicodeBlock block) {
-            base();
             this.block = block;
             isSatisfiedBy = (ch) => {
                 throw new Exception.NotImplemented("Block.isSatisfiedBy");
@@ -3231,7 +3227,6 @@ public class System.Regex.Pattern : Object
     {
         public UnicodeScript script;
         public Script(UnicodeScript script) {
-            base();
             this.script = script;
             isSatisfiedBy = (ch) => {
                 throw new Exception.NotImplemented("Script.isSatisfiedBy");
@@ -3248,7 +3243,6 @@ public class System.Regex.Pattern : Object
     {
         public int typeMask;
         public Category(int typeMask) { 
-            base();
             this.typeMask = typeMask; 
             isSatisfiedBy = (ch) => {
                 return (typeMask & (1 << Character.GetType((int)ch))) != 0;
@@ -3263,7 +3257,6 @@ public class System.Regex.Pattern : Object
     {
         public UnicodeProp uprop;
         public Utype(UnicodeProp uprop) { 
-            base();
             this.uprop = uprop; 
             isSatisfiedBy = (ch) => {
                 return uprop.Is((int)ch);
@@ -3278,7 +3271,6 @@ public class System.Regex.Pattern : Object
     {
         public int ctype;
         public Ctype(int ctype) {
-            base(); 
             this.ctype = ctype; 
             isSatisfiedBy = (ch) => {
                 return ch < 128 && ASCII.IsType((int)ch, ctype);
@@ -3292,7 +3284,6 @@ public class System.Regex.Pattern : Object
     public class VertWS : BmpCharProperty 
     {
         public VertWS() {
-            base();
             isSatisfiedBy = (cp) => {
                 return (cp >= 0x0A && cp <= 0x0D) ||
                     cp == 0x85 || cp == 0x2028 || cp == 0x2029;
@@ -3306,7 +3297,6 @@ public class System.Regex.Pattern : Object
     public class HorizWS : BmpCharProperty 
     {
         public HorizWS() {
-            base();
             isSatisfiedBy = (cp) => {
                 return cp == 0x09 || cp == 0x20 || cp == 0xa0 ||
                     cp == 0x1680 || cp == 0x180e ||
@@ -3323,7 +3313,6 @@ public class System.Regex.Pattern : Object
     {
         public int[] buffer;
         public SliceNode(int[] buf) {
-            base();
             buffer = buf;
         }
         public override bool study(TreeInfo info) {
@@ -3530,7 +3519,6 @@ public class System.Regex.Pattern : Object
     public class All : CharProperty 
     {
         public All() {
-            base();
             isSatisfiedBy = (ch) => {
                 return true;
             };
@@ -3543,7 +3531,6 @@ public class System.Regex.Pattern : Object
     public class Dot : CharProperty 
     {
         public Dot() {
-            base();
             isSatisfiedBy = (ch) => {
                 return (ch != '\n' && ch != '\r'
                         && (ch|1) != 0x2029
@@ -3559,7 +3546,6 @@ public class System.Regex.Pattern : Object
     public class UnixDot : CharProperty 
     {
         public UnixDot() {
-            base();
             isSatisfiedBy = (ch) => {
                 return ch != '\n';
             };
@@ -3574,7 +3560,6 @@ public class System.Regex.Pattern : Object
         public Node atom;
         public int type;
         public Ques(Node node, int type) {
-            base();
             this.atom = node;
             this.type = type;
         }
@@ -3620,7 +3605,6 @@ public class System.Regex.Pattern : Object
         public int cmax;
 
         public Curly(Node node, int cmin, int cmax, int type) {
-            base();
             this.atom = node;
             this.type = type;
             this.cmin = cmin;
@@ -3769,7 +3753,6 @@ public class System.Regex.Pattern : Object
 
         public GroupCurly(Node node, int cmin, int cmax, int type, int local,
                    int group, bool capture) {
-            base();
             this.atom = node;
             this.type = type;
             this.cmin = cmin;
@@ -3971,7 +3954,7 @@ public class System.Regex.Pattern : Object
      */
     public class BranchConn : Node 
     {
-        public BranchConn() { base(); }
+        public BranchConn() {  }
         public override bool match(Matcher matcher, int i, string seq) {
             return next.match(matcher, i, seq);
         }
@@ -3991,7 +3974,6 @@ public class System.Regex.Pattern : Object
         public int size = 2;
         public Node conn;
         public Branch(Node first, Node second, Node branchConn) {
-            base();
             conn = branchConn;
             atoms[0] = first;
             atoms[1] = second;
@@ -4061,7 +4043,6 @@ public class System.Regex.Pattern : Object
     {
         public int localIndex;
         public GroupHead(int localCount) {
-            base();
             localIndex = localCount;
         }
         public override bool match(Matcher matcher, int i, string seq) {
@@ -4089,7 +4070,6 @@ public class System.Regex.Pattern : Object
     {
         public GroupHead head;
         public GroupRef(GroupHead head) {
-            base();
             this.head = head;
         }
         public override bool match(Matcher matcher, int i, string seq) {
@@ -4116,7 +4096,6 @@ public class System.Regex.Pattern : Object
         public int localIndex;
         public int groupIndex;
         public GroupTail(int localCount, int groupCount) {
-            base();
             localIndex = localCount;
             groupIndex = groupCount + groupCount;
         }
@@ -4152,7 +4131,6 @@ public class System.Regex.Pattern : Object
     {
         public Loop loop;
         public Prolog(Loop loop) {
-            base();
             this.loop = loop;
         }
         public override bool match(Matcher matcher, int i, string seq) {
@@ -4177,7 +4155,6 @@ public class System.Regex.Pattern : Object
         public int cmin;
         public int cmax;
         public Loop(int countIndex, int beginIndex) {
-            base();
             this.countIndex = countIndex;
             this.beginIndex = beginIndex;
         }
@@ -4307,7 +4284,6 @@ public class System.Regex.Pattern : Object
     {
         public int groupIndex;
         public BackRef(int groupCount) {
-            base();
             groupIndex = groupCount + groupCount;
         }
         public override bool match(Matcher matcher, int i, string seq) {
@@ -4343,7 +4319,6 @@ public class System.Regex.Pattern : Object
         public int groupIndex;
         public bool doUnicodeCase;
         public CIBackRef(int groupCount, bool doUnicodeCase) {
-            base();
             groupIndex = groupCount + groupCount;
             this.doUnicodeCase = doUnicodeCase;
         }
@@ -4404,7 +4379,6 @@ public class System.Regex.Pattern : Object
     {
         public Node atom;
         public First(Node node) {
-            base();
             this.atom = BnM.optimize(node);
         }
         public override bool match(Matcher matcher, int i, string seq) {
@@ -4438,7 +4412,6 @@ public class System.Regex.Pattern : Object
         public Node yes;
         public Node not;
         public Conditional(Node cond, Node yes, Node not) {
-            base();
             this.cond = cond;
             this.yes = yes;
             this.not = not;
@@ -4478,7 +4451,6 @@ public class System.Regex.Pattern : Object
     {
         public Node cond;
         public Pos(Node cond) {
-            base();
             this.cond = cond;
         }
         public override bool match(Matcher matcher, int i, string seq) {
@@ -4505,7 +4477,6 @@ public class System.Regex.Pattern : Object
     {
         public Node cond;
         public Neg(Node cond) {
-            base();
             this.cond = cond;
         }
         public override bool match(Matcher matcher, int i, string seq) {
@@ -4554,7 +4525,6 @@ public class System.Regex.Pattern : Object
         public int rmax;
         public int rmin;
         public Behind(Node cond, int rmax, int rmin) {
-            base();
             this.cond = cond;
             this.rmax = rmax;
             this.rmin = rmin;
@@ -4625,7 +4595,6 @@ public class System.Regex.Pattern : Object
         public int rmax;
         public int rmin;
         public NotBehind(Node cond, int rmax, int rmin) {
-            base();
             this.cond = cond;
             this.rmax = rmax;
             this.rmin = rmin;
@@ -4732,7 +4701,6 @@ public class System.Regex.Pattern : Object
         public int type;
         public bool useUWORD;
         public Bound(int n, bool useUWORD) {
-            base();
             type = n;
             this.useUWORD = useUWORD;
         }
@@ -4894,7 +4862,6 @@ public class System.Regex.Pattern : Object
             return new BnM(src, lastOcc, optoSft, node.next);
         }
         public BnM(int[] src, int[] lastOcc, int[] optoSft, Node next) {
-            base();
             this.buffer = src;
             this.lastOcc = lastOcc;
             this.optoSft = optoSft;
@@ -5002,6 +4969,9 @@ public class System.Regex.Pattern : Object
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
+    public static void Initialize() {
+        CharPropertyNames.Initialize();
+    }
     /**
      *  This must be the very first initializer.
      */
@@ -5017,6 +4987,11 @@ public class System.Regex.Pattern : Object
         public static CharProperty charPropertyFor(string name) {
             CharPropertyFactory m = map.get(name);
             return m == null ? null : m.make();
+
+            // var r = m == null ? null : m.make();
+            // println("CharProperty - %s", r.get_type().name());
+            // if (r.isSatisfiedBy == null) println("isSatisfiedBy == null");
+            // return r;
         }
 
         public class CharPropertyFactory : Object 
@@ -5043,31 +5018,33 @@ public class System.Regex.Pattern : Object
                     make = () => { return new Ctype(ctype);}});
         }
 
-        public class CloneableProperty
-            : CharProperty//, Cloneable
+        public class CloneableProperty : CharProperty, ICloneable
         {
-            public CloneableProperty clone() {
-                var clone = (CloneableProperty)(GLib.Object.new(get_type()));
-                clone.next = this.next;
+            public new CloneableProperty Clone()
+                throws System.Exception
+            {
+                var clone = base.Clone() as CloneableProperty;
+                /*
+                 * Implemented as a delegate property, not a virtual method,
+                 * so 'isSatisfiedBy' needs to be explicitely copied:
+                 */
+                clone.isSatisfiedBy = this.isSatisfiedBy;
                 return clone;
-                // try {
-                    // return (CloneableProperty) base.clone();
-                // } catch (CloneNotSupportedException e) {
-                //     throw new AssertionError(e);
-                // }
             }
         }
 
         private static void defClone(string name,
                                      CloneableProperty p) {
             map.set(name, new CharPropertyFactory() {
-                    make = () => { return p.clone();}});
+                    make = () => { return p.Clone();}});
         }
 
-        private static Dictionary<string, CharPropertyFactory> map
-            = new Dictionary<string, CharPropertyFactory>();
+        private static Dictionary<string, CharPropertyFactory> map;
+            // = new Dictionary<string, CharPropertyFactory>();
 
-        static construct {
+        public static void Initialize() {
+            map = new Dictionary<string, CharPropertyFactory>();
+
             // Unicode character property aliases, defined in
             // http://www.unicode.org/Public/UNIDATA/PropertyValueAliases.txt
             defCategory("Cn", 1<<UnicodeType.UNASSIGNED);
@@ -5159,58 +5136,58 @@ public class System.Regex.Pattern : Object
             defCtype("XDigit",ASCII.XDIGIT); // hexadecimal digits
 
             // Java character properties, defined by methods in Character.java
-            defClone("javaLowerCase", new CloneableProperty() {
+            defClone("valaLowerCase", new CloneableProperty() {
                 isSatisfiedBy = (ch) => {
                     return Character.IsLowerCase((int)ch);}});
-            defClone("javaUpperCase", new CloneableProperty() {
+            defClone("valaUpperCase", new CloneableProperty() {
                 isSatisfiedBy = (ch) => {
                     return Character.IsUpperCase((int)ch);}});
-            defClone("javaAlphabetic", new CloneableProperty() {
+            defClone("valaAlphabetic", new CloneableProperty() {
                 isSatisfiedBy = (ch) => {
                     return Character.IsAlphabetic((int)ch);}});
-            // defClone("javaIdeographic", new CloneableProperty() {
+            // defClone("valaIdeographic", new CloneableProperty() {
             //     isSatisfiedBy = (ch) => {
             //         return Character.isIdeographic(ch);}});
-            defClone("javaTitleCase", new CloneableProperty() {
+            defClone("valaTitleCase", new CloneableProperty() {
                 isSatisfiedBy = (ch) => {
                     return Character.IsTitleCase((int)ch);}});
-            defClone("javaDigit", new CloneableProperty() {
+            defClone("valaDigit", new CloneableProperty() {
                 isSatisfiedBy = (ch) => {
                     return Character.IsDigit((int)ch);}});
-            defClone("javaDefined", new CloneableProperty() {
+            defClone("valaDefined", new CloneableProperty() {
                 isSatisfiedBy = (ch) => {
                     return Character.IsDefined((int)ch);}});
-            defClone("javaLetter", new CloneableProperty() {
+            defClone("valaLetter", new CloneableProperty() {
                 isSatisfiedBy = (ch) => {
                     return Character.IsLetter((int)ch);}});
-            defClone("javaLetterOrDigit", new CloneableProperty() {
+            defClone("valaLetterOrDigit", new CloneableProperty() {
                 isSatisfiedBy = (ch) => {
                     return Character.IsLetterOrDigit((int)ch);}});
-            // defClone("javaJavaIdentifierStart", new CloneableProperty() {
+            // defClone("valaJavaIdentifierStart", new CloneableProperty() {
             //     isSatisfiedBy = (ch) => {
             //         return Character.isJavaIdentifierStart(ch);}});
-            // defClone("javaJavaIdentifierPart", new CloneableProperty() {
+            // defClone("valaJavaIdentifierPart", new CloneableProperty() {
             //     isSatisfiedBy = (ch) => {
             //         return Character.isJavaIdentifierPart(ch);}});
-            // defClone("javaUnicodeIdentifierStart", new CloneableProperty() {
+            // defClone("valaUnicodeIdentifierStart", new CloneableProperty() {
             //     isSatisfiedBy = (ch) => {
             //         return Character.isUnicodeIdentifierStart(ch);}});
-            // defClone("javaUnicodeIdentifierPart", new CloneableProperty() {
+            // defClone("valaUnicodeIdentifierPart", new CloneableProperty() {
             //     isSatisfiedBy = (ch) => {
             //         return Character.isUnicodeIdentifierPart(ch);}});
-            // defClone("javaIdentifierIgnorable", new CloneableProperty() {
+            // defClone("valaIdentifierIgnorable", new CloneableProperty() {
             //     isSatisfiedBy = (ch) => {
             //         return Character.isIdentifierIgnorable(ch);}});
-            defClone("javaSpaceChar", new CloneableProperty() {
+            defClone("valaSpaceChar", new CloneableProperty() {
                 isSatisfiedBy = (ch) => {
                     return Character.IsSpaceChar((int)ch);}});
-            defClone("javaWhitespace", new CloneableProperty() {
+            defClone("valaWhitespace", new CloneableProperty() {
                 isSatisfiedBy = (ch) => {
                     return Character.IsWhitespace((int)ch);}});
-            defClone("javaISOControl", new CloneableProperty() {
+            defClone("valaISOControl", new CloneableProperty() {
                 isSatisfiedBy = (ch) => {
                     return Character.IsISOControl((int)ch);}});
-            // defClone("javaMirrored", new CloneableProperty() {
+            // defClone("valaMirrored", new CloneableProperty() {
             //     isSatisfiedBy = (ch) => {
             //         return Character.isMirrored(ch);}});
         }

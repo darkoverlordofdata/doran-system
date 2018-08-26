@@ -763,6 +763,7 @@ public class System.Regex.Matcher : Object, MatchResult
      */
     public Matcher AppendReplacement(StringBuilder sb, string replacement) 
     {
+
         // If no match, return error
         if (First < 0)
             throw new Exception.IllegalStateException("No match available");
@@ -848,14 +849,14 @@ public class System.Regex.Matcher : Object, MatchResult
                 }
                 // Append group
                 if (Start(refNum) != -1 && End(refNum) != -1)
-                    result.append(Text.substring(Start(refNum), End(refNum)));
+                    result.append(Text.substr(Start(refNum), End(refNum)));
             } else {
                 result.append_unichar(nextChar);
                 cursor++;
             }
         }
         // Append the intervening text
-        sb.append(Text.substring(LastAppendPosition, First));
+        sb.append(Text.substr(LastAppendPosition, First));
         // Append the match substitution
         sb.append(result.str);
 
@@ -879,7 +880,7 @@ public class System.Regex.Matcher : Object, MatchResult
      */
     public unowned StringBuilder AppendTail(StringBuilder sb) 
     {
-        sb.append(Text.substring(LastAppendPosition, GetTextLength()));
+        sb.append(Text.substr(LastAppendPosition, GetTextLength()));
         return sb;
     }
 
@@ -1142,7 +1143,8 @@ public class System.Regex.Matcher : Object, MatchResult
      * @see java.util.regex.Matcher#hasAnchoringBounds
      * @since 1.5
      */
-    public Matcher UseAnchoringBounds(bool b) {
+    public Matcher UseAnchoringBounds(bool b) 
+    {
         AnchoringBounds = b;
         return this;
     }
@@ -1155,7 +1157,8 @@ public class System.Regex.Matcher : Object, MatchResult
      * @return  The string representation of this matcher
      * @since 1.5
      */
-    public string ToString() {
+    public string ToString() 
+    {
         StringBuilder sb = new StringBuilder();
         sb.append("System.Regex.Matcher");
         sb.append("[pattern=" + GetPattern().ToString());
@@ -1182,7 +1185,8 @@ public class System.Regex.Matcher : Object, MatchResult
      *          otherwise
      * @since 1.5
      */
-    public bool GetHitEnd() {
+    public bool GetHitEnd() 
+    {
         return HitEnd;
     }
 
@@ -1200,7 +1204,8 @@ public class System.Regex.Matcher : Object, MatchResult
      *          negative one.
      * @since 1.5
      */
-    public bool GetRequireEnd() {
+    public bool GetRequireEnd() 
+    {
         return RequireEnd;
     }
 
@@ -1217,7 +1222,8 @@ public class System.Regex.Matcher : Object, MatchResult
      * calls to the search methods start at a new "soft" boundary which is
      * the end of the previous match.
      */
-    public bool Search(int from) {
+    public bool Search(int from) 
+    {
         HitEnd = false;
         RequireEnd = false;
         from = from < 0 ? 0 : from;
@@ -1273,8 +1279,9 @@ public class System.Regex.Matcher : Object, MatchResult
      * @param  endIndex     the ending index, exclusive
      * @return A String generated from this Matcher's input
      */
-    public string GetSubSequence(int beginIndex, int endIndex) {
-        return Text.substring(beginIndex, endIndex);
+    public string GetSubSequence(int beginIndex, int endIndex) 
+    {
+        return Text.substr(beginIndex, endIndex); 
     }
 
     /**

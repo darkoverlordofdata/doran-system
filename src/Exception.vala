@@ -18,6 +18,7 @@ public errordomain System.Exception
 {
     ArgumentException,
     ArgumentOutOfRangeException,
+    CloneNotSupportedException,
     IllegalArgumentException,
     IllegalStateException,
     IndexOutOfBoundsException,

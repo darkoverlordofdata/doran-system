@@ -38,5 +38,6 @@ namespace System
     {
         TimeSpan.Initialize();
         EventArgs.Initialize();
+        Regex.Initialize();
     }
 }
