@@ -10,3 +10,11 @@ original Gee. It's a mish-mosh of licensing - GPL, BSD, MIT, and Apache:
     json        - org.json
     collections - gee 
     core & xna  - dotnet
+
+## todo
+
+For emscripten:
+
+replace System.IO.WinNTFileSystem with System.IO.PosixFileSystem
+
+add conditional compile flags for filesystem, and clock choice (SDL|native)

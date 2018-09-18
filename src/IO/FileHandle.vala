@@ -20,7 +20,7 @@ namespace System.IO
 	 */	
 	public class FileHandle : Object 
     {
-		private File file;
+		internal File file;
 		private string path;
 		private FileType type;
 		private FileStream stream;

@@ -29,10 +29,6 @@ namespace System
         Memory.copy(dest+destPos, src+srcPos, length*sizeof(T));
     }
 
-    public void println(string s, ...)
-    {
-        stdout.vprintf(s+"\n", va_list());
-    }
 
     public void Initialize()
     {

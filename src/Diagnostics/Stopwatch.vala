@@ -39,8 +39,12 @@ namespace System.Diagnostics
         private static double tickFrequency;  
  
         static construct {                    
-            
+
+#if __EMSCRIPTEN__            
+            Frequency = 1000000L;
+#else
             Frequency = Sdl.GetPerformanceFrequency();
+#endif
             IsHighResolution = true;
             tickFrequency = TicksPerSecond;
             tickFrequency /= Frequency;
@@ -117,7 +121,14 @@ namespace System.Diagnostics
  
         public static uint64 GetTimestamp() {
 
+#if __EMSCRIPTEN__ 
+            var t = TimeVal();           
+            uint64 ts = t.tv_sec;
+            uint64 us = t.tv_usec;
+            return (ts * 1000000L) + us;
+#else
 		    return Sdl.GetPerformanceCounter();
+#endif
         }
  
         // Get the elapsed ticks.        

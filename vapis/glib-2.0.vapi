@@ -2729,6 +2729,11 @@ namespace GLib {
 	}
 
 	/* Message Output and Debugging Functions */
+	[PrintfFormat]
+    public void println(string s, ...)
+    {
+        GLib.stdout.vprintf(s+"\n", va_list());
+    }
 
 	[PrintfFormat]
 	public static void print (string format, ...);
