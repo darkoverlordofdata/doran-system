@@ -9,6 +9,10 @@ public class System.IO.DefaultFileSystem
      */
     public static FileSystem GetFileSystem() 
     {
+#if (__EMSCRIPTEN__)
+        return null;
+#else
         return new WinNTFileSystem();
+#endif
     }
 }

@@ -1,3 +1,4 @@
+#if (!__EMSCRIPTEN__)
 using System.Collections.Generic;
 /**
  * FileSystem for Windows NT/2000.
@@ -663,3 +664,4 @@ public class System.IO.WinNTFileSystem : FileSystem
     }
 
 }
+#endif

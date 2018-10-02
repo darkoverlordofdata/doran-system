@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+
+
 public G[] VarArgs<G>(G car, va_list cdr)
 {
     G[] array = { car };

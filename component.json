@@ -25,6 +25,7 @@
     "src/Main.vala",
     "src/Misc.vala",
     "src/TimeSpan.vala",
+    "src/UnitTesting.vala",
     "src/Variant.vala",
     "src/WeakReference.vala",
     "src/Diagnostics/Stopwatch.vala",

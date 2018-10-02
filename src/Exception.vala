@@ -23,6 +23,7 @@ public errordomain System.Exception
     IllegalStateException,
     IndexOutOfBoundsException,
     InvalidOperationException,
+    InvalidType,
     NotImplemented,
     NullPointerException,
     NumberFormatException,

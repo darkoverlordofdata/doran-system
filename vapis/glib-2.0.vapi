@@ -304,6 +304,7 @@ public struct uchar {
 [CCode (cname = "gint", cheader_filename = "glib.h", type_id = "G_TYPE_INT", marshaller_type_name = "INT", get_value_function = "g_value_get_int", set_value_function = "g_value_set_int", default_value = "0", type_signature = "i")]
 [IntegerType (rank = 6)]
 public struct int {
+	public bool Equals(int other) { return this == other; }
 	[CCode (cname = "G_MININT")]
 	public const int MIN;
 	[CCode (cname = "G_MAXINT")]
@@ -2730,6 +2731,7 @@ namespace GLib {
 
 	/* Message Output and Debugging Functions */
 	[PrintfFormat]
+	[CCode (cname="_vala_println")]
     public void println(string s, ...)
     {
         GLib.stdout.vprintf(s+"\n", va_list());
