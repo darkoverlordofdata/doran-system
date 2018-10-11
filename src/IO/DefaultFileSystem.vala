@@ -2,7 +2,7 @@
  *
  * @since 1.8
  */
-public class System.IO.DefaultFileSystem 
+public class System.IO.DefaultFileSystem : Object
 {
     /**
      * Return the FileSystem object for Windows platform.
@@ -10,7 +10,10 @@ public class System.IO.DefaultFileSystem
     public static FileSystem GetFileSystem() 
     {
 #if (__EMSCRIPTEN__)
-        return null;
+        print("Create new EmscriptenFileSystem\n");
+        var fs = new EmscriptenFileSystem();
+        print("return EmscriptenFileSystem\n");
+        return fs;
 #else
         return new WinNTFileSystem();
 #endif

@@ -31,6 +31,7 @@
     "src/Diagnostics/Stopwatch.vala",
     "src/IO/File.vala",
     "src/IO/DataInputStream.vala",
+    "src/IO/EmscriptenFileSystem.vala",
     "src/IO/FileHandle.vala",
     "src/IO/FileType.vala",
     "src/JsonVala/JsType.vala",

@@ -167,6 +167,8 @@ namespace Stdio {
 		[CCode (cname = "SEEK_END", cheader_filename = "stdio.h")]
 		public const int SEEK_END;
 
+		[CCode (cname = "fclose")]	
+		public static void close();
 		[CCode (cname = "fopen")]
 		public static FILE? open (string path, string mode);
 		[CCode (cname = "fdopen")]

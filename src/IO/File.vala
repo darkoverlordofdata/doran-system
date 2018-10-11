@@ -106,6 +106,7 @@
  * @author  unascribed
  * @since   JDK1.0
  */
+// public class System.IO.File : Comparable<File> 
 public class System.IO.File : Object, IComparable<File> 
 {
     /**
@@ -749,6 +750,7 @@ public class System.IO.File : Object, IComparable<File>
      *
      * @since   1.2
      */
+    // public override int CompareTo(File pathname) 
     public int CompareTo(File pathname) 
     {
         return fs.Compare(this, pathname);

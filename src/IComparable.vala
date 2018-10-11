@@ -21,6 +21,12 @@ namespace System
         public abstract int CompareTo(T other);
     }
 
+    public abstract class Comparable<T> : Object 
+    {
+        public abstract int CompareTo(T other);
+    }
+
+
     public interface ICloneable : Object 
     {
     }
