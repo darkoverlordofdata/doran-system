@@ -7,7 +7,7 @@ namespace System.Xml
     event-based interface for parsing. This is the object users interact with when coding
     with XML for <SCRIPT>
     *****************************************************************************************************************/
-    public class SaxDriver : AttributeList, Locator, XmlReader, Object
+    public class SaxDriver : AttributeList//, Locator, XmlReader, Object
     {
         private DefaultHandler m_hndDoc;
         private DefaultHandler m_hndErr;
@@ -33,7 +33,7 @@ namespace System.Xml
             m_hndLex = null;
         }
 
-        public void Parse(string strD) {
+        public override void Parse(string strD) {
             /*******************************************************************************************************************
             function:   Parse
 
@@ -67,7 +67,7 @@ namespace System.Xml
 
         Author:   Scott Severtson
         *********************************************************************************************************************/
-        public void SetDocumentHandler(DefaultHandler hnd) 
+        public override void SetDocumentHandler(DefaultHandler hnd) 
         {
             m_hndDoc = hnd;
         }   // end function SetDocumentHandler
@@ -78,7 +78,7 @@ namespace System.Xml
 
         Author:   Scott Severtson
         *********************************************************************************************************************/
-        public void SetErrorHandler(DefaultHandler hnd) 
+        public override void SetErrorHandler(DefaultHandler hnd) 
         {
             m_hndErr = hnd;
         }  // end function SetErrorHandler
@@ -89,7 +89,7 @@ namespace System.Xml
 
         Author:   Scott Severtson
         *********************************************************************************************************************/
-        public void SetLexicalHandler(DefaultHandler hnd) 
+        public override void SetLexicalHandler(DefaultHandler hnd) 
         {
             m_hndLex = hnd;
         }  // end function SetLexicalHandler
@@ -104,7 +104,7 @@ namespace System.Xml
 
         Author:   Scott Severtson
         *********************************************************************************************************************/
-        public int GetColumnNumber() 
+        public override int GetColumnNumber() 
         {
             return m_parser.GetColumnNumber();
         }  // end function GetColumnNumber
@@ -115,7 +115,7 @@ namespace System.Xml
 
         Author:   Scott Severtson
         *********************************************************************************************************************/
-        public int GetLineNumber() 
+        public override int GetLineNumber() 
         {
             return m_parser.GetLineNumber();
         }  // end function GetLineNumber
@@ -137,7 +137,7 @@ namespace System.Xml
 
         Author:   Scott Severtson
         *********************************************************************************************************************/
-        public string GetPublicId() 
+        public override string GetPublicId() 
         {
             return null;
         }  // end function getPublicID
@@ -148,7 +148,7 @@ namespace System.Xml
 
         Author:   Scott Severtson
         *********************************************************************************************************************/
-        public string GetSystemId() 
+        public override string GetSystemId() 
         {
             return null;
         }  // end function GetSystemId
@@ -163,7 +163,7 @@ namespace System.Xml
 
         Author:   Scott Severtson
         *********************************************************************************************************************/
-        public int GetLength() 
+        public override int GetLength() 
         {
             return m_parser.GetAttributeCount();
         }  // end function getAttributeCount
@@ -174,7 +174,7 @@ namespace System.Xml
 
         Author:   Scott Severtson
         *********************************************************************************************************************/
-        public string GetName(int index) 
+        public override string GetName(int index) 
         {
             return m_parser.GetAttributeName(index);
         } // end function getAttributeName
@@ -185,7 +185,7 @@ namespace System.Xml
 
         Author:   Scott Severtson
         *********************************************************************************************************************/
-        public string GetValue(int index) 
+        public override string GetValue(int index) 
         {
             return m_parser.GetAttributeValue(index);
         }  // end function getAttributeValue
@@ -196,7 +196,7 @@ namespace System.Xml
 
         Author:   Scott Severtson
         *********************************************************************************************************************/
-        public string GetValueByName(string name) 
+        public override string GetValueByName(string name) 
         {
             return m_parser.GetAttributeValueByName(name);
         } // end function getAttributeValueByName

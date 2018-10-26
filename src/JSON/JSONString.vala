@@ -6,7 +6,7 @@
  * <code>toJSONString</code> method will be used instead of the default behavior
  * of using the Object's <code>toString()</code> method and quoting the result.
  */
-public interface System.JSON.JSONString {
+public abstract class System.JSON.JSONString {
     /**
      * The <code>toJSONString</code> method allows a class to produce its own JSON
      * serialization.

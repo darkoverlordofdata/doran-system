@@ -81,13 +81,13 @@ public class System.IO.StringWriter : Writer
      *
      * @since 1.5
      */
-    public new Writer Append(string csq, int start=0, int end=0) throws IOException 
+    public override Appendable Append(string csq, int start=0, int end=0) throws IOException 
     {
         if (end == 0) end = csq.length;
         WriteStr(csq, start, end-start);
         return this;
     }
-    public new Writer AppendChar(char c) throws IOException 
+    public override Appendable AppendChar(char c) throws IOException 
     {
         WriteOne(c);
         return this;

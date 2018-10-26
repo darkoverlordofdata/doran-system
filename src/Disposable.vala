@@ -16,15 +16,15 @@
 namespace System 
 {
 
-    public interface IDisposable : Object 
+    public abstract class Disposable : Object 
     {
         public abstract void Dispose();
     }
 
     [CCode (has_target = false)]
-    public delegate void UseFunc(IDisposable object);
+    public delegate void UseFunc(Disposable object);
 
-    public void using(IDisposable object, UseFunc use)
+    public void using(Disposable object, UseFunc use)
     {
         try
         {

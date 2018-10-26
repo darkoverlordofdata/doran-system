@@ -35,9 +35,9 @@ public abstract class Object : GLib.Object
      */
     public virtual Object Clone() throws System.Exception
     {
-        if (this is System.ICloneable)
+        // if (this is System.ICloneable)
             return (Object)(GLib.Object.new(get_type()));
-        throw new System.Exception.CloneNotSupportedException(get_type().name());
+        // throw new System.Exception.CloneNotSupportedException(get_type().name());
     }
 
     /**

@@ -19,7 +19,7 @@
  *
  * @since 1.5
  */
-public interface System.Appendable : Object 
+public abstract class System.Appendable : Object 
 {
 
     /**

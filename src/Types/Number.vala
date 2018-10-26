@@ -25,7 +25,7 @@
  * @jls 5.1.3 Narrowing Primitive Conversions
  * @since   JDK1.0
  */
-public abstract class System.Number : Object
+public abstract class System.Number<T> : Comparable<T>
 {
     /**
      * Returns the value of the specified number as an {@code int},

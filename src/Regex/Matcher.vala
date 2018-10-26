@@ -73,7 +73,7 @@
  * @spec        JSR-51
  */
 
-public class System.Regex.Matcher : Object, MatchResult 
+public class System.Regex.Matcher : MatchResult 
 {
 
     public const int NOARG = -32767;
@@ -333,7 +333,7 @@ public class System.Regex.Matcher : Object, MatchResult
      *          If there is no capturing group in the pattern
      *          with the given index
      */
-    public int Start(int group = NOARG) 
+    public override int Start(int group = NOARG) 
     {
         if (First < 0)
             throw new Exception.IllegalStateException("No match available");
@@ -403,7 +403,7 @@ public class System.Regex.Matcher : Object, MatchResult
      *          If there is no capturing group in the pattern
      *          with the given index
      */
-    public int End(int group = NOARG) 
+    public override int End(int group = NOARG) 
     {
         if (First < 0)
             throw new Exception.IllegalStateException("No match available");
@@ -494,7 +494,7 @@ public class System.Regex.Matcher : Object, MatchResult
      *          If there is no capturing group in the pattern
      *          with the given index
      */
-    public string Group(int group=0) 
+    public override string Group(int group=0) 
     {
         if (First < 0)
             throw new Exception.IllegalStateException("No match found");
@@ -552,7 +552,7 @@ public class System.Regex.Matcher : Object, MatchResult
      *
      * @return The number of capturing groups in this matcher's pattern
      */
-    public int GroupCount() 
+    public override int GroupCount() 
     {
         return ParentPattern.CapturingGroupCount - 1;
     }

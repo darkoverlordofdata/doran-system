@@ -13,7 +13,7 @@
  * @author  Arthur van Hoff
  * @since   JDK1.0
  */
-public class System.Boolean : Object, IComparable<Boolean>
+public class System.Boolean : Comparable<Boolean>
 {
     /**
      * The {@code Boolean} object corresponding to the primitive
@@ -213,7 +213,7 @@ public class System.Boolean : Object, IComparable<Boolean>
      * @see     Comparable
      * @since  1.5
      */
-    public int CompareTo(Boolean other)
+    public override int CompareTo(Boolean other)
     {
         return Compare(this.value, other.value);
     }

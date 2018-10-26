@@ -15,7 +15,7 @@ using System.Collections.Generic;
  * @see     java.lang.Number
  * @since   JDK1.1
  */
-public class System.Character : Number, IComparable<Character>
+public class System.Character : Number<Character>
 {
     /**
      * The minimum radix available for conversion to and from strings.
@@ -745,7 +745,7 @@ public class System.Character : Number, IComparable<Character>
      *           comparison).
      * @since   1.2
      */
-    public int CompareTo(Character other)
+    public override int CompareTo(Character other)
     {
         return Compare(this.value, other.value);
     }

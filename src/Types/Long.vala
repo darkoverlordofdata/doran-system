@@ -20,7 +20,7 @@
  * @author  Joseph D. Darcy
  * @since   JDK1.0
  */
-public class System.Long : Number, IComparable<Long>
+public class System.Long : Number<Long>
 {
 
     /**
@@ -395,7 +395,7 @@ public class System.Long : Number, IComparable<Long>
      *           comparison).
      * @since   1.2
      */
-    public int CompareTo(Long other)
+    public override int CompareTo(Long other)
     {
         return Compare(this.value, other.value);
     }

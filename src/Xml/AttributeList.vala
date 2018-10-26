@@ -1,4 +1,4 @@
-public interface System.Xml.AttributeList : Object
+public abstract class System.Xml.AttributeList : Locator
 {
     public abstract int GetLength();
     public abstract string GetName(int index);

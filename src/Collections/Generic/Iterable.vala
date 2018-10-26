@@ -39,15 +39,3 @@ public abstract class System.Collections.Generic.Iterable<G> : Object {
 	public abstract Iterator<G> iterator ();
 }
 
-public interface System.Collections.Generic.IEnumerable<G> : Object {
-	// public abstract Type get_element_type ();
-
-	/**
-	 * Returns a Iterator that can be used for simple iteration over a
-	 * collection.
-	 *
-	 * @return a Iterator that can be used for simple iteration over a
-	 *         collection
-	 */
-	public abstract Iterator<G> iterator ();
-}

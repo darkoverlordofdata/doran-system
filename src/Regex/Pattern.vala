@@ -5018,7 +5018,7 @@ public class System.Regex.Pattern : Object
                     make = () => { return new Ctype(ctype);}});
         }
 
-        public class CloneableProperty : CharProperty, ICloneable
+        public class CloneableProperty : CharProperty//, ICloneable
         {
             public new CloneableProperty Clone()
                 throws System.Exception

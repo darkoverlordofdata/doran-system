@@ -93,7 +93,9 @@ public class System.IO.FileInputStream : InputStream
             throw new IOException.FileNotFoundException("Invalid file path");
         }
         fd = FileStream.open(name, "r");
+
         if (fd == null) {
+            print("FileInputStream.FromFile Unable to Open %s\n", name);
             throw new IOException.FileNotFoundException("Unable to Open");
         }
     } 

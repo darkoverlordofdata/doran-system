@@ -15,7 +15,7 @@
  * @see     java.io.PushbackInputStream
  * @since   JDK1.0
  */
-public abstract class System.IO.InputStream : Object, Closeable
+public abstract class System.IO.InputStream : Object//, Closeable
 {
     // MAX_SKIP_BUFFER_SIZE is used to determine the maximum buffer size to
     // use when skipping.

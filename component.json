@@ -18,10 +18,10 @@
   "files": [
     "src/EventArgs.vala",
     "src/Environment.vala",
-    "src/IComparable.vala",
-    "src/IDisposable.vala",
+    "src/Comparable.vala",
+    "src/Disposable.vala",
     "src/Exception.vala",
-    "src/IServiceProvider.vala",
+    "src/ServiceProvider.vala",
     "src/Main.vala",
     "src/Misc.vala",
     "src/TimeSpan.vala",

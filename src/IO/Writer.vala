@@ -19,7 +19,10 @@
  * @since       JDK1.1
  */
 
-public abstract class System.IO.Writer : Object, Appendable, Closeable, Flushable {
+
+// public abstract class System.IO.Writer : Object, Appendable//, Closeable, Flushable 
+public abstract class System.IO.Writer : Appendable//, Closeable, Flushable 
+{
 
     /**
      * Temporary buffer used to hold writes of strings and single characters
@@ -155,13 +158,13 @@ public abstract class System.IO.Writer : Object, Appendable, Closeable, Flushabl
      *
      * @since 1.5
      */
-    public Appendable Append(string csq, int start=0, int end=0) throws IOException 
+    public override Appendable Append(string csq, int start=0, int end=0) throws IOException 
     {
         if (end == 0) end = csq.length;
         WriteStr(csq, start, end-start);
         return this;
     }
-    public Appendable AppendChar(char c) throws IOException 
+    public override Appendable AppendChar(char c) throws IOException 
     {
         WriteOne(c);
         return this;

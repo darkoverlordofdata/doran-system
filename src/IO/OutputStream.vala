@@ -16,7 +16,7 @@
  * @see     java.io.OutputStream#write(int)
  * @since   JDK1.0
  */
-public abstract class System.IO.OutputStream : Object, Closeable, Flushable 
+public abstract class System.IO.OutputStream : Object//, Closeable, Flushable 
 {
     /**
      * Writes the specified byte to this output stream. The general

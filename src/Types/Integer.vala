@@ -20,7 +20,7 @@
  * @author  Joseph D. Darcy
  * @since JDK1.0
  */
-public class System.Integer : Number, IComparable<Integer>
+public class System.Integer : Number<Integer>
 {
     /**
      * A constant holding the minimum value an {@code int} can
@@ -389,7 +389,7 @@ public class System.Integer : Number, IComparable<Integer>
      *           comparison).
      * @since   1.2
      */
-    public int CompareTo(Integer other)
+    public override int CompareTo(Integer other)
     {
         return Compare(this.value, other.value);
     }

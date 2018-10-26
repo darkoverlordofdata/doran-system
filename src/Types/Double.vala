@@ -15,7 +15,7 @@
  * @author  Joseph D. Darcy
  * @since JDK1.0
  */
-public class System.Double : Number, IComparable<Double>
+public class System.Double : Number<Double>
 {
     /**
      * A constant holding the largest positive finite value of type
@@ -364,7 +364,7 @@ public class System.Double : Number, IComparable<Double>
      *
      * @since   1.2
      */
-    public int CompareTo(Double other)
+    public override int CompareTo(Double other)
     {
         return Compare(this.value, other.value);
     }

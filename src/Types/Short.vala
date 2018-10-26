@@ -13,7 +13,7 @@
  * @see     java.lang.Number
  * @since   JDK1.1
  */
-public class System.Short : Number, IComparable<Short>
+public class System.Short : Number<Short>
 {
 
     /**
@@ -305,7 +305,7 @@ public class System.Short : Number, IComparable<Short>
      *           comparison).
      * @since   1.2
      */
-    public int CompareTo(Short other)
+    public override int CompareTo(Short other)
     {
         return Compare(this.value, other.value);
     }

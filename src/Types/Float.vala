@@ -15,7 +15,7 @@
  * @author  Joseph D. Darcy
  * @since JDK1.0
  */
-public class System.Float : Number, IComparable<Float>
+public class System.Float : Number<Float>
 {
     /**
      * A constant holding the largest positive finite value of type
@@ -371,7 +371,7 @@ public class System.Float : Number, IComparable<Float>
      * @since   1.2
      * @see Comparable#compareTo(Object)
      */
-    public int CompareTo(Float other)
+    public override int CompareTo(Float other)
     {
         return Compare(this.value, other.value);
     }

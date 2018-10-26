@@ -15,9 +15,8 @@
  ******************************************************************************/
 namespace System 
 {
-
-    public interface IServiceProvider : Object
+    public abstract class Comparable<T> : Object 
     {
- 	    public abstract Object GetService(Type? type); 
+        public abstract int CompareTo(T other);
     }
 }

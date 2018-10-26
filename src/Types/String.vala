@@ -66,7 +66,7 @@
  * @see     java.nio.charset.Charset
  * @since   JDK1.0
  */
-public class System.String : Object, IComparable<String>
+public class System.String : Comparable<String>
 {
     public const Type TYPE = Type.STRING;
 
@@ -258,7 +258,7 @@ public class System.String : Object, IComparable<String>
      *          value greater than {@code 0} if this string is
      *          lexicographically greater than the string argument.
      */
-    public int CompareTo(String other)
+    public override int CompareTo(String other)
     {
         return Compare(this.value, other.value);
     }

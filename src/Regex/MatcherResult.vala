@@ -15,7 +15,7 @@ public errordomain System.Regex.RegexException
     PatternSyntaxException
 }
 
-public interface System.Regex.MatchResult : Object 
+public abstract class System.Regex.MatchResult : Object 
 {
     /**
      * Returns the start index of the match.

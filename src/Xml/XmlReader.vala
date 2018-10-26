@@ -1,4 +1,4 @@
-public interface System.Xml.XmlReader : Object
+public abstract class System.Xml.XmlReader : Object
 {
     public abstract void Parse(string input);
     public abstract void SetDocumentHandler(DefaultHandler hnd);

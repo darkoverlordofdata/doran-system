@@ -20,7 +20,7 @@
  * @since       JDK1.1
  */
 
-public abstract class System.IO.Reader : Object, Closeable
+public abstract class System.IO.Reader : Object//, Closeable
 {
     /**
      * The object used to synchronize operations on this stream.  For
