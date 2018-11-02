@@ -38,7 +38,6 @@ public class System.IO.InputStreamReader : Reader
      */
     public InputStreamReader(InputStream in) 
     {
-        print("InputStreamReader ctor\n");
         base();
         this.in = in;
     }

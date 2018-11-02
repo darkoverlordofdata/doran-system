@@ -66,7 +66,6 @@ public class System.IO.BufferedReader : Reader
      */
     public BufferedReader(Reader in, int sz = defaultCharBufferSize) throws IOException
     {
-        print("Buffered Reader ctor\n");
         base(in);
         this.lock = in.lock;
         if (sz <= 0)
