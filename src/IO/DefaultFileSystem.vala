@@ -14,8 +14,10 @@ public class System.IO.DefaultFileSystem : Object
         var fs = new EmscriptenFileSystem();
         print("return EmscriptenFileSystem\n");
         return fs;
-#else
+#elif (__MINGW64__)
         return new WinNTFileSystem();
+#else 
+        return new PosixFileSystem();
 #endif
     }
 }

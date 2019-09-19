@@ -1,4 +1,4 @@
-#if (__MINGW64__)
+#if (!__MINGW64__ && !__EMSCRIPTEN__)
 using System.Collections.Generic;
 /**
  * FileSystem for Windows NT/2000.
@@ -6,13 +6,13 @@ using System.Collections.Generic;
  * @author Konstantin Kladko
  * @since 1.4
  */
-public class System.IO.WinNTFileSystem : FileSystem 
+public class System.IO.PosixFileSystem : FileSystem 
 {
     private char slash;
     private char altSlash;
     private char semicolon;
 
-    public WinNTFileSystem() 
+    public PosixFileSystem() 
     {
         slash = '/';
         semicolon = ';';
@@ -500,8 +500,9 @@ public class System.IO.WinNTFileSystem : FileSystem
         Stdio.FILE handle;
 		Stdio.Stat s;
 		handle = Stdio.fopen(f.GetPath(), "r");
-		Stdio.fstat(handle.fileno(), out s);
-		return (int)s.st_mode;
+		// Stdio.fstat(handle.fileno(), out s);
+		// return (int)s.st_mode;
+        return 0;
     }
 
     public override bool CheckAccess(File f, int access)
@@ -509,8 +510,9 @@ public class System.IO.WinNTFileSystem : FileSystem
         Stdio.FILE handle;
 		Stdio.Stat s;
 		handle = Stdio.fopen(f.GetPath(), "r");
-		Stdio.fstat(handle.fileno(), out s);
-        return ((int)s.st_mode & access) != 0;
+		// Stdio.fstat(handle.fileno(), out s);
+        // return ((int)s.st_mode & access) != 0;
+        return false;
     }
 
     public override long GetLastModifiedTime(File f)
@@ -523,8 +525,9 @@ public class System.IO.WinNTFileSystem : FileSystem
         Stdio.FILE handle;
 		Stdio.Stat s;
 		handle = Stdio.fopen(f.GetPath(), "r");
-		Stdio.fstat(handle.fileno(), out s);
-		return (int)s.st_size;
+		// Stdio.fstat(handle.fileno(), out s);
+		// return (int)s.st_size;
+        return 0;
     }
 
     public override bool SetPermission(File f, int access, bool enable,
